@@ -1,0 +1,243 @@
+void TriggerRateVSpt_combined_20170722_St2eta21to24_q4_fraction98_withGE2195_allnpar_Andq12_PU200_test()
+{
+//=========Macro generated from canvas: c1_n2/c1_n2
+//=========  (Thu Aug 31 14:27:49 2017) by ROOT version6.08/06
+   TCanvas *c1_n2 = new TCanvas("c1_n2", "c1_n2",0,0,700,500);
+   gStyle->SetOptStat(0);
+   c1_n2->SetHighLightColor(2);
+   c1_n2->Range(-4.651163,-1.593662,56.07235,2.972968);
+   c1_n2->SetFillColor(0);
+   c1_n2->SetBorderMode(0);
+   c1_n2->SetBorderSize(2);
+   c1_n2->SetLogy();
+   c1_n2->SetGridx();
+   c1_n2->SetGridy();
+   c1_n2->SetTickx(1);
+   c1_n2->SetTicky(1);
+   c1_n2->SetLeftMargin(0.126);
+   c1_n2->SetTopMargin(0.06);
+   c1_n2->SetBottomMargin(0.13);
+   c1_n2->SetFrameBorderMode(0);
+   c1_n2->SetFrameBorderMode(0);
+   
+   THStack *hs = new THStack();
+   hs->SetName("hs");
+   hs->SetTitle(" #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200");
+   hs->SetMinimum(0.1);
+   hs->SetMaximum(500);
+   Double_t xAxis1[23] = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 25, 28, 30, 35, 40, 50}; 
+   
+   TH1F *hs_stack_1 = new TH1F("hs_stack_1"," #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200",22, xAxis1);
+   hs_stack_1->SetMinimum(0.1);
+   hs_stack_1->SetMaximum(500);
+   hs_stack_1->SetDirectory(0);
+   hs_stack_1->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   hs_stack_1->SetLineColor(ci);
+   hs_stack_1->GetXaxis()->SetTitle("Trigger p_{T} threshold [GeV]");
+   hs_stack_1->GetXaxis()->SetLabelFont(42);
+   hs_stack_1->GetXaxis()->SetLabelSize(0.035);
+   hs_stack_1->GetXaxis()->SetTitleSize(0.035);
+   hs_stack_1->GetXaxis()->SetTitleFont(42);
+   hs_stack_1->GetYaxis()->SetTitle("Trigger rate [kHz]");
+   hs_stack_1->GetYaxis()->SetLabelFont(42);
+   hs_stack_1->GetYaxis()->SetLabelSize(0.035);
+   hs_stack_1->GetYaxis()->SetTitleSize(0.035);
+   hs_stack_1->GetYaxis()->SetTitleFont(42);
+   hs_stack_1->GetZaxis()->SetLabelFont(42);
+   hs_stack_1->GetZaxis()->SetLabelSize(0.035);
+   hs_stack_1->GetZaxis()->SetTitleSize(0.035);
+   hs_stack_1->GetZaxis()->SetTitleFont(42);
+   hs->SetHistogram(hs_stack_1);
+   
+   Double_t xAxis2[23] = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 25, 28, 30, 35, 40, 50}; 
+   
+   TH1F *hrate_q12__1 = new TH1F("hrate_q12__1","hrate_q12",22, xAxis2);
+   hrate_q12__1->SetBinContent(3,323.1027);
+   hrate_q12__1->SetBinContent(4,204.3933);
+   hrate_q12__1->SetBinContent(5,141.8425);
+   hrate_q12__1->SetBinContent(6,105.0122);
+   hrate_q12__1->SetBinContent(7,80.20495);
+   hrate_q12__1->SetBinContent(8,61.94196);
+   hrate_q12__1->SetBinContent(9,50.07102);
+   hrate_q12__1->SetBinContent(10,42.00487);
+   hrate_q12__1->SetBinContent(11,37.8957);
+   hrate_q12__1->SetBinContent(12,34.09091);
+   hrate_q12__1->SetBinContent(13,30.13393);
+   hrate_q12__1->SetBinContent(14,27.54667);
+   hrate_q12__1->SetBinContent(15,23.28531);
+   hrate_q12__1->SetBinContent(16,20.39367);
+   hrate_q12__1->SetBinContent(17,17.50203);
+   hrate_q12__1->SetBinContent(18,16.13231);
+   hrate_q12__1->SetBinContent(20,13.69724);
+   hrate_q12__1->SetBinContent(21,10.8056);
+   hrate_q12__1->SetBinContent(22,10.19683);
+   hrate_q12__1->SetBinError(3,7.012382);
+   hrate_q12__1->SetBinError(4,5.577359);
+   hrate_q12__1->SetBinError(5,4.646207);
+   hrate_q12__1->SetBinError(6,3.997745);
+   hrate_q12__1->SetBinError(7,3.493783);
+   hrate_q12__1->SetBinError(8,3.070349);
+   hrate_q12__1->SetBinError(9,2.760505);
+   hrate_q12__1->SetBinError(10,2.528396);
+   hrate_q12__1->SetBinError(11,2.401542);
+   hrate_q12__1->SetBinError(12,2.277795);
+   hrate_q12__1->SetBinError(13,2.141525);
+   hrate_q12__1->SetBinError(14,2.047528);
+   hrate_q12__1->SetBinError(15,1.882506);
+   hrate_q12__1->SetBinError(16,1.761745);
+   hrate_q12__1->SetBinError(17,1.632073);
+   hrate_q12__1->SetBinError(18,1.566908);
+   hrate_q12__1->SetBinError(20,1.443816);
+   hrate_q12__1->SetBinError(21,1.282389);
+   hrate_q12__1->SetBinError(22,1.245742);
+   hrate_q12__1->SetEntries(19);
+   hrate_q12__1->SetStats(0);
+
+   ci = TColor::GetColor("#ff0000");
+   hrate_q12__1->SetLineColor(ci);
+   hrate_q12__1->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff0000");
+   hrate_q12__1->SetMarkerColor(ci);
+   hrate_q12__1->SetMarkerStyle(26);
+   hrate_q12__1->GetXaxis()->SetLabelFont(42);
+   hrate_q12__1->GetXaxis()->SetLabelSize(0.035);
+   hrate_q12__1->GetXaxis()->SetTitleSize(0.035);
+   hrate_q12__1->GetXaxis()->SetTitleFont(42);
+   hrate_q12__1->GetYaxis()->SetLabelFont(42);
+   hrate_q12__1->GetYaxis()->SetLabelSize(0.035);
+   hrate_q12__1->GetYaxis()->SetTitleSize(0.035);
+   hrate_q12__1->GetYaxis()->SetTitleFont(42);
+   hrate_q12__1->GetZaxis()->SetLabelFont(42);
+   hrate_q12__1->GetZaxis()->SetLabelSize(0.035);
+   hrate_q12__1->GetZaxis()->SetTitleSize(0.035);
+   hrate_q12__1->GetZaxis()->SetTitleFont(42);
+   hs->Add(hrate_q12__1,"");
+   Double_t xAxis3[23] = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 25, 28, 30, 35, 40, 50}; 
+   
+   TH1F *hrate_me0__2 = new TH1F("hrate_me0__2","hrate_me0",22, xAxis3);
+   hrate_me0__2->SetBinContent(3,73.20414);
+   hrate_me0__2->SetBinContent(4,37.28693);
+   hrate_me0__2->SetBinContent(5,24.04627);
+   hrate_me0__2->SetBinContent(6,16.74107);
+   hrate_me0__2->SetBinContent(7,12.32752);
+   hrate_me0__2->SetBinContent(8,10.19683);
+   hrate_me0__2->SetBinContent(9,8.066153);
+   hrate_me0__2->SetBinContent(10,6.544237);
+   hrate_me0__2->SetBinContent(11,6.392045);
+   hrate_me0__2->SetBinContent(12,5.326705);
+   hrate_me0__2->SetBinContent(13,4.565747);
+   hrate_me0__2->SetBinContent(14,4.565747);
+   hrate_me0__2->SetBinContent(15,3.652597);
+   hrate_me0__2->SetBinContent(16,2.739448);
+   hrate_me0__2->SetBinContent(17,2.130682);
+   hrate_me0__2->SetBinContent(18,1.826299);
+   hrate_me0__2->SetBinContent(20,1.521916);
+   hrate_me0__2->SetBinContent(21,1.369724);
+   hrate_me0__2->SetBinContent(22,1.065341);
+   hrate_me0__2->SetBinError(3,3.337821);
+   hrate_me0__2->SetBinError(4,2.382175);
+   hrate_me0__2->SetBinError(5,1.913018);
+   hrate_me0__2->SetBinError(6,1.596199);
+   hrate_me0__2->SetBinError(7,1.369724);
+   hrate_me0__2->SetBinError(8,1.245742);
+   hrate_me0__2->SetBinError(9,1.107971);
+   hrate_me0__2->SetBinError(10,0.9979868);
+   hrate_me0__2->SetBinError(11,0.986314);
+   hrate_me0__2->SetBinError(12,0.9003774);
+   hrate_me0__2->SetBinError(13,0.8335875);
+   hrate_me0__2->SetBinError(14,0.8335875);
+   hrate_me0__2->SetBinError(15,0.7455833);
+   hrate_me0__2->SetBinError(16,0.6456941);
+   hrate_me0__2->SetBinError(17,0.5694487);
+   hrate_me0__2->SetBinError(18,0.527207);
+   hrate_me0__2->SetBinError(20,0.481272);
+   hrate_me0__2->SetBinError(21,0.4565747);
+   hrate_me0__2->SetBinError(22,0.402661);
+   hrate_me0__2->SetEntries(19);
+   hrate_me0__2->SetStats(0);
+
+   ci = kBlack;
+   hrate_me0__2->SetLineColor(ci);
+   hrate_me0__2->SetLineWidth(2);
+
+   hrate_me0__2->SetMarkerColor(ci);
+   hrate_me0__2->SetMarkerStyle(21);
+   hrate_me0__2->GetXaxis()->SetLabelFont(42);
+   hrate_me0__2->GetXaxis()->SetLabelSize(0.035);
+   hrate_me0__2->GetXaxis()->SetTitleSize(0.035);
+   hrate_me0__2->GetXaxis()->SetTitleFont(42);
+   hrate_me0__2->GetYaxis()->SetLabelFont(42);
+   hrate_me0__2->GetYaxis()->SetLabelSize(0.035);
+   hrate_me0__2->GetYaxis()->SetTitleSize(0.035);
+   hrate_me0__2->GetYaxis()->SetTitleFont(42);
+   hrate_me0__2->GetZaxis()->SetLabelFont(42);
+   hrate_me0__2->GetZaxis()->SetLabelSize(0.035);
+   hrate_me0__2->GetZaxis()->SetTitleSize(0.035);
+   hrate_me0__2->GetZaxis()->SetTitleFont(42);
+   hs->Add(hrate_me0__2,"");
+   hs->Draw("nostacke");
+   hs->SetTitle("");
+   
+   TLegend *leg = new TLegend(0.5,0.67,0.88,0.87,NULL,"brNDC");
+   leg->SetBorderSize(1);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(0);
+   leg->SetFillStyle(1001);
+   TLegendEntry *entry=leg->AddEntry("NULL","L1Mu(standalone) performance","h");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("hrate_q12","Phase-1 detector(CSC): Run-2 Trigger Configuration","pl");
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(26);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("hrate_me0","Phase-2(CSC+GE11+GE21+ME0)","pl");
+
+   ci = kBlack;
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   leg->Draw();
+   
+   TPaveText *pt = new TPaveText(0,0.942,1,1,"blNDC");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   TText *AText = pt->AddText(" #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200");
+   pt->Draw();
+      tex = new TLatex(0.2,0.2,"2.15<|#eta|<2.40");
+tex->SetNDC();
+   tex->SetTextSize(0.045);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   c1_n2->Modified();
+   c1_n2->cd();
+   c1_n2->SetSelected(c1_n2);
+   c1_n2->SaveAs("TriggerRateVSpt_combined_20170722_St2eta21to24_q4_fraction98_withGE2195_allnpar_Andq12_PU200_test.png");
+   c1_n2->SaveAs("TriggerRateVSpt_combined_20170722_St2eta21to24_q4_fraction98_withGE2195_allnpar_Andq12_PU200_test.pdf");
+}

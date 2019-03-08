@@ -1,0 +1,258 @@
+void TriggerRateVSeta_combined_20170131_pt25_St2eta16to21_q12_allnpar_Andq12_PU200()
+{
+//=========Macro generated from canvas: c1_n2/c1_n2
+//=========  (Tue Sep  5 14:02:03 2017) by ROOT version6.08/06
+   TCanvas *c1_n2 = new TCanvas("c1_n2", "c1_n2",0,0,700,500);
+   gStyle->SetOptStat(0);
+   c1_n2->SetHighLightColor(2);
+   c1_n2->Range(1.461628,-3.271324,2.559819,1.175663);
+   c1_n2->SetFillColor(0);
+   c1_n2->SetBorderMode(0);
+   c1_n2->SetBorderSize(2);
+   c1_n2->SetLogy();
+   c1_n2->SetGridx();
+   c1_n2->SetGridy();
+   c1_n2->SetTickx(1);
+   c1_n2->SetTicky(1);
+   c1_n2->SetLeftMargin(0.126);
+   c1_n2->SetTopMargin(0.06);
+   c1_n2->SetBottomMargin(0.13);
+   c1_n2->SetFrameBorderMode(0);
+   c1_n2->SetFrameBorderMode(0);
+   
+   THStack *hs = new THStack();
+   hs->SetName("hs");
+   hs->SetTitle(" #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200");
+   Double_t xAxis51[18] = {1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45}; 
+   
+   TH1F *hs_stack_8 = new TH1F("hs_stack_8"," #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200",17, xAxis51);
+   hs_stack_8->SetMinimum(0.002026674);
+   hs_stack_8->SetMaximum(8.106697);
+   hs_stack_8->SetDirectory(0);
+   hs_stack_8->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   hs_stack_8->SetLineColor(ci);
+   hs_stack_8->GetXaxis()->SetTitle("L1Mu |#eta|");
+   hs_stack_8->GetXaxis()->SetLabelFont(42);
+   hs_stack_8->GetXaxis()->SetLabelSize(0.035);
+   hs_stack_8->GetXaxis()->SetTitleSize(0.05);
+   hs_stack_8->GetXaxis()->SetTitleFont(42);
+   hs_stack_8->GetYaxis()->SetTitle("L1 Trigger rate [kHz]");
+   hs_stack_8->GetYaxis()->SetLabelFont(42);
+   hs_stack_8->GetYaxis()->SetLabelSize(0.035);
+   hs_stack_8->GetYaxis()->SetTitleSize(0.05);
+   hs_stack_8->GetYaxis()->SetTitleFont(42);
+   hs_stack_8->GetZaxis()->SetLabelFont(42);
+   hs_stack_8->GetZaxis()->SetLabelSize(0.035);
+   hs_stack_8->GetZaxis()->SetTitleSize(0.035);
+   hs_stack_8->GetZaxis()->SetTitleFont(42);
+   hs->SetHistogram(hs_stack_8);
+   
+   Double_t xAxis52[18] = {1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45}; 
+   
+   TH1F *ratehist_CSC__44 = new TH1F("ratehist_CSC__44","ratehist_CSC",17, xAxis52);
+   ratehist_CSC__44->SetBinContent(2,1.217533);
+   ratehist_CSC__44->SetBinContent(3,0.6087663);
+   ratehist_CSC__44->SetBinContent(4,1.369724);
+   ratehist_CSC__44->SetBinContent(5,0.9131494);
+   ratehist_CSC__44->SetBinContent(6,0.9131494);
+   ratehist_CSC__44->SetBinContent(7,0.4565747);
+   ratehist_CSC__44->SetBinContent(8,1.826299);
+   ratehist_CSC__44->SetBinContent(9,2.130682);
+   ratehist_CSC__44->SetBinContent(10,1.97849);
+   ratehist_CSC__44->SetBinContent(11,1.369724);
+   ratehist_CSC__44->SetBinContent(12,3.043831);
+   ratehist_CSC__44->SetBinContent(13,4.261364);
+   ratehist_CSC__44->SetBinContent(14,3.500406);
+   ratehist_CSC__44->SetBinContent(15,2.89164);
+   ratehist_CSC__44->SetBinContent(16,2.435065);
+   ratehist_CSC__44->SetBinError(2,0.4304627);
+   ratehist_CSC__44->SetBinError(3,0.3043831);
+   ratehist_CSC__44->SetBinError(4,0.4565747);
+   ratehist_CSC__44->SetBinError(5,0.3727917);
+   ratehist_CSC__44->SetBinError(6,0.3727917);
+   ratehist_CSC__44->SetBinError(7,0.2636035);
+   ratehist_CSC__44->SetBinError(8,0.527207);
+   ratehist_CSC__44->SetBinError(9,0.5694487);
+   ratehist_CSC__44->SetBinError(10,0.5487345);
+   ratehist_CSC__44->SetBinError(11,0.4565747);
+   ratehist_CSC__44->SetBinError(12,0.6806213);
+   ratehist_CSC__44->SetBinError(13,0.805322);
+   ratehist_CSC__44->SetBinError(14,0.7298851);
+   ratehist_CSC__44->SetBinError(15,0.6633876);
+   ratehist_CSC__44->SetBinError(16,0.6087662);
+   ratehist_CSC__44->SetEntries(190);
+   ratehist_CSC__44->SetDirectory(0);
+   ratehist_CSC__44->SetStats(0);
+
+   ci = TColor::GetColor("#ff0000");
+   ratehist_CSC__44->SetLineColor(ci);
+   ratehist_CSC__44->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff0000");
+   ratehist_CSC__44->SetMarkerColor(ci);
+   ratehist_CSC__44->SetMarkerStyle(26);
+   ratehist_CSC__44->GetXaxis()->SetTitle("L1Mu |#eta|");
+   ratehist_CSC__44->GetXaxis()->SetLabelFont(42);
+   ratehist_CSC__44->GetXaxis()->SetLabelSize(0.035);
+   ratehist_CSC__44->GetXaxis()->SetTitleSize(0.035);
+   ratehist_CSC__44->GetXaxis()->SetTitleFont(42);
+   ratehist_CSC__44->GetYaxis()->SetTitle("L1 Trigger Rate [kHz]");
+   ratehist_CSC__44->GetYaxis()->SetLabelFont(42);
+   ratehist_CSC__44->GetYaxis()->SetLabelSize(0.035);
+   ratehist_CSC__44->GetYaxis()->SetTitleSize(0.035);
+   ratehist_CSC__44->GetYaxis()->SetTitleFont(42);
+   ratehist_CSC__44->GetZaxis()->SetLabelFont(42);
+   ratehist_CSC__44->GetZaxis()->SetLabelSize(0.035);
+   ratehist_CSC__44->GetZaxis()->SetTitleSize(0.035);
+   ratehist_CSC__44->GetZaxis()->SetTitleFont(42);
+   hs->Add(ratehist_CSC,"");
+   Double_t xAxis53[24] = {1, 1.2, 1.3, 1.45, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45, 2.5}; 
+   
+   TH1F *ratehist_GE11_eta16to21_frac96_pt25__45 = new TH1F("ratehist_GE11_eta16to21_frac96_pt25__45","ratehist_GE11_eta16to21_frac96_pt25",23, xAxis53);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinContent(8,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinContent(9,0.3043831);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinContent(10,0.4565747);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinContent(11,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinContent(12,0.3043831);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinContent(13,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinContent(14,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinError(8,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinError(9,0.2152314);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinError(10,0.2636035);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinError(11,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinError(12,0.2152314);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinError(13,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetBinError(14,0.1521916);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetEntries(11);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetStats(0);
+
+   ci = TColor::GetColor("#0000ff");
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetLineColor(ci);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetLineWidth(2);
+
+   ci = TColor::GetColor("#0000ff");
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetMarkerColor(ci);
+   ratehist_GE11_eta16to21_frac96_pt25__45->SetMarkerStyle(25);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetXaxis()->SetTitle("L1Mu |#eta|");
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetXaxis()->SetLabelFont(42);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetXaxis()->SetLabelSize(0.035);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetXaxis()->SetTitleSize(0.035);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetXaxis()->SetTitleFont(42);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetYaxis()->SetTitle("L1 Trigger Rate [kHz]");
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetYaxis()->SetLabelFont(42);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetYaxis()->SetLabelSize(0.035);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetYaxis()->SetTitleSize(0.035);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetYaxis()->SetTitleFont(42);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetZaxis()->SetLabelFont(42);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetZaxis()->SetLabelSize(0.035);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetZaxis()->SetTitleSize(0.035);
+   ratehist_GE11_eta16to21_frac96_pt25__45->GetZaxis()->SetTitleFont(42);
+   hs->Add(ratehist_GE11_eta16to21_frac96_pt25,"");
+   Double_t xAxis54[24] = {1, 1.2, 1.3, 1.45, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45, 2.5}; 
+   
+   TH1F *ratehist_ME0__46 = new TH1F("ratehist_ME0__46","ratehist_ME0",23, xAxis54);
+   ratehist_ME0__46->SetBinContent(10,0.4565747);
+   ratehist_ME0__46->SetBinContent(12,0.3043831);
+   ratehist_ME0__46->SetBinContent(14,0.1521916);
+   ratehist_ME0__46->SetBinContent(18,0.4565747);
+   ratehist_ME0__46->SetBinContent(19,0.1521916);
+   ratehist_ME0__46->SetBinContent(20,0.3043831);
+   ratehist_ME0__46->SetBinContent(21,0.9131494);
+   ratehist_ME0__46->SetBinError(10,0.2636035);
+   ratehist_ME0__46->SetBinError(12,0.2152314);
+   ratehist_ME0__46->SetBinError(14,0.1521916);
+   ratehist_ME0__46->SetBinError(18,0.2636035);
+   ratehist_ME0__46->SetBinError(19,0.1521916);
+   ratehist_ME0__46->SetBinError(20,0.2152314);
+   ratehist_ME0__46->SetBinError(21,0.3727917);
+   ratehist_ME0__46->SetEntries(18);
+   ratehist_ME0__46->SetStats(0);
+   ratehist_ME0__46->SetLineWidth(2);
+   ratehist_ME0__46->SetMarkerStyle(21);
+   ratehist_ME0__46->GetXaxis()->SetTitle("L1Mu |#eta|");
+   ratehist_ME0__46->GetXaxis()->SetLabelFont(42);
+   ratehist_ME0__46->GetXaxis()->SetLabelSize(0.035);
+   ratehist_ME0__46->GetXaxis()->SetTitleSize(0.035);
+   ratehist_ME0__46->GetXaxis()->SetTitleFont(42);
+   ratehist_ME0__46->GetYaxis()->SetTitle("L1 Trigger Rate [kHz]");
+   ratehist_ME0__46->GetYaxis()->SetLabelFont(42);
+   ratehist_ME0__46->GetYaxis()->SetLabelSize(0.035);
+   ratehist_ME0__46->GetYaxis()->SetTitleSize(0.035);
+   ratehist_ME0__46->GetYaxis()->SetTitleFont(42);
+   ratehist_ME0__46->GetZaxis()->SetLabelFont(42);
+   ratehist_ME0__46->GetZaxis()->SetLabelSize(0.035);
+   ratehist_ME0__46->GetZaxis()->SetTitleSize(0.035);
+   ratehist_ME0__46->GetZaxis()->SetTitleFont(42);
+   hs->Add(ratehist_ME0,"");
+   hs->Draw("nostacke");
+   
+   TLegend *leg = new TLegend(0.2,0.15,0.75,0.35,NULL,"brNDC");
+   leg->SetBorderSize(1);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(0);
+   leg->SetFillStyle(1001);
+   TLegendEntry *entry=leg->AddEntry("NULL","L1Mu(standalone) Performance","h");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("ratehist_CSC","Phase-1 detector (CSC): Run-2 Trigger Configuration","pl");
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(26);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("ratehist_GE11_eta16to21_frac96_pt25","Phase-1+GE11(CSC+GE11)","pl");
+
+   ci = TColor::GetColor("#0000ff");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+
+   ci = TColor::GetColor("#0000ff");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(25);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("ratehist_ME0","Phase-2(CSC+GE11+GE21+ME0)","pl");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   leg->Draw();
+   
+   TPaveText *pt = new TPaveText(0,0.942,1,1,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   TText *AText = pt->AddText(" #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200");
+   pt->Draw();
+      tex = new TLatex(0.2,0.88,"p_{T}^{Trig} >25 GeV");
+tex->SetNDC();
+   tex->SetTextSize(0.045);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   c1_n2->Modified();
+   c1_n2->cd();
+   c1_n2->SetSelected(c1_n2);
+}

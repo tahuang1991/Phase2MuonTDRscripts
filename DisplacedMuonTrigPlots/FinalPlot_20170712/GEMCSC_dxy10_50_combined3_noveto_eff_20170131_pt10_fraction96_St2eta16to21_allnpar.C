@@ -1,0 +1,317 @@
+void GEMCSC_dxy10_50_combined3_noveto_eff_20170131_pt10_fraction96_St2eta16to21_allnpar()
+{
+//=========Macro generated from canvas: c1_n2/c1_n2
+//=========  (Thu Jul 13 13:21:00 2017) by ROOT version6.08/06
+   TCanvas *c1_n2 = new TCanvas("c1_n2", "c1_n2",0,0,700,500);
+   gStyle->SetOptStat(0);
+   c1_n2->SetHighLightColor(2);
+   c1_n2->Range(-8.139535,-0.1685185,56.45995,1.127778);
+   c1_n2->SetFillColor(0);
+   c1_n2->SetBorderMode(0);
+   c1_n2->SetBorderSize(2);
+   c1_n2->SetGridx();
+   c1_n2->SetGridy();
+   c1_n2->SetTickx(1);
+   c1_n2->SetTicky(1);
+   c1_n2->SetLeftMargin(0.126);
+   c1_n2->SetTopMargin(0.06);
+   c1_n2->SetBottomMargin(0.13);
+   c1_n2->SetFrameBorderMode(0);
+   c1_n2->SetFrameBorderMode(0);
+   Double_t xAxis37[22] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 42, 50}; 
+   
+   TH1F *b1__60 = new TH1F("b1__60"," #scale[1.4]{#font[61]{CMS}} #font[52]{Simulation preliminary}                 14 TeV, 140 PU",21, xAxis37);
+   b1__60->SetMinimum(0);
+   b1__60->SetMaximum(1.05);
+   b1__60->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   b1__60->SetLineColor(ci);
+   b1__60->GetXaxis()->SetTitle("True muon p_{T} [GeV]");
+   b1__60->GetXaxis()->SetLabelFont(42);
+   b1__60->GetXaxis()->SetLabelSize(0.05);
+   b1__60->GetXaxis()->SetTitleSize(0.05);
+   b1__60->GetXaxis()->SetTitleFont(42);
+   b1__60->GetYaxis()->SetTitle("Trigger efficiency");
+   b1__60->GetYaxis()->SetNdivisions(520);
+   b1__60->GetYaxis()->SetLabelFont(42);
+   b1__60->GetYaxis()->SetLabelSize(0.05);
+   b1__60->GetYaxis()->SetTitleSize(0.05);
+   b1__60->GetYaxis()->SetTitleOffset(1.1);
+   b1__60->GetYaxis()->SetTitleFont(42);
+   b1__60->GetZaxis()->SetLabelFont(42);
+   b1__60->GetZaxis()->SetLabelSize(0.035);
+   b1__60->GetZaxis()->SetTitleSize(0.035);
+   b1__60->GetZaxis()->SetTitleFont(42);
+   b1__60->Draw("");
+   Double_t xAxis79[22] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 42, 50}; 
+   
+   TEfficiency * positioneta16to21displacedmuonpt10157 = new TEfficiency("positioneta16to21displacedmuonpt10","",21,xAxis79);
+   
+   positioneta16to21displacedmuonpt10157->SetConfidenceLevel(0.6826895);
+   positioneta16to21displacedmuonpt10157->SetBetaAlpha(1);
+   positioneta16to21displacedmuonpt10157->SetBetaBeta(1);
+   positioneta16to21displacedmuonpt10157->SetWeight(0.08333333);
+   positioneta16to21displacedmuonpt10157->SetPosteriorMode(0);
+   positioneta16to21displacedmuonpt10157->SetShortestInterval(0);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(0,0);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(0,0);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(1,0);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(1,0);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(2,0);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(2,0);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(3,2406);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(3,7);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(4,5225);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(4,191);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(5,5265);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(5,575);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(6,5176);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(6,1113);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(7,5155);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(7,1749);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(8,5207);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(8,2326);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(9,5094);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(9,2855);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(10,5066);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(10,3232);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(11,10197);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(11,7491);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(12,10192);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(12,7923);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(13,10460);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(13,8367);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(14,10274);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(14,8262);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(15,10273);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(15,8326);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(16,20414);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(16,16679);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(17,20583);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(17,16837);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(18,20594);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(18,16782);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(19,20542);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(19,16803);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(20,30572);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(20,24921);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(21,41252);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(21,33516);
+   positioneta16to21displacedmuonpt10157->SetTotalEvents(22,0);
+   positioneta16to21displacedmuonpt10157->SetPassedEvents(22,0);
+   positioneta16to21displacedmuonpt10157->SetFillColor(19);
+
+   ci = TColor::GetColor("#0000ff");
+   positioneta16to21displacedmuonpt10157->SetLineColor(ci);
+
+   ci = TColor::GetColor("#0000ff");
+   positioneta16to21displacedmuonpt10157->SetMarkerColor(ci);
+   positioneta16to21displacedmuonpt10157->SetMarkerStyle(20);
+   positioneta16to21displacedmuonpt10157->Draw("samep");
+   Double_t xAxis80[22] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 42, 50}; 
+   
+   TEfficiency * hybrid_noGE21eta16to21displacedmuonpt10158 = new TEfficiency("hybrid_noGE21eta16to21displacedmuonpt10","",21,xAxis80);
+   
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetConfidenceLevel(0.6826895);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetBetaAlpha(1);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetBetaBeta(1);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetWeight(0.08333333);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPosteriorMode(0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetShortestInterval(0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(0,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(0,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(1,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(1,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(2,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(2,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(3,2406);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(3,8);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(4,5225);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(4,193);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(5,5265);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(5,616);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(6,5176);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(6,1197);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(7,5155);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(7,1874);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(8,5207);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(8,2467);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(9,5094);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(9,2975);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(10,5066);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(10,3356);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(11,10197);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(11,7560);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(12,10192);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(12,7885);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(13,10460);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(13,8319);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(14,10274);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(14,8191);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(15,10273);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(15,8258);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(16,20414);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(16,16565);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(17,20583);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(17,16734);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(18,20594);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(18,16692);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(19,20542);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(19,16702);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(20,30572);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(20,24746);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(21,41252);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(21,33315);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetTotalEvents(22,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetPassedEvents(22,0);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetFillColor(19);
+
+   ci = TColor::GetColor("#ff0000");
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetLineColor(ci);
+
+   ci = TColor::GetColor("#ff0000");
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetMarkerColor(ci);
+   hybrid_noGE21eta16to21displacedmuonpt10158->SetMarkerStyle(21);
+   //hybrid_noGE21eta16to21displacedmuonpt10158->Draw("samep");
+   Double_t xAxis81[22] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 42, 50}; 
+   
+   TEfficiency * hybrideta16to21displacedmuonpt10159 = new TEfficiency("hybrideta16to21displacedmuonpt10","",21,xAxis81);
+   
+   hybrideta16to21displacedmuonpt10159->SetConfidenceLevel(0.6826895);
+   hybrideta16to21displacedmuonpt10159->SetBetaAlpha(1);
+   hybrideta16to21displacedmuonpt10159->SetBetaBeta(1);
+   hybrideta16to21displacedmuonpt10159->SetWeight(0.08333333);
+   hybrideta16to21displacedmuonpt10159->SetPosteriorMode(0);
+   hybrideta16to21displacedmuonpt10159->SetShortestInterval(0);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(0,0);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(0,0);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(1,0);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(1,0);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(2,0);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(2,0);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(3,2518);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(3,8);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(4,5495);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(4,231);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(5,5483);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(5,676);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(6,5365);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(6,1338);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(7,5363);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(7,2084);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(8,5393);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(8,2756);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(9,5283);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(9,3376);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(10,5274);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(10,3839);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(11,10518);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(11,8683);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(12,10539);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(12,9252);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(13,10843);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(13,9800);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(14,10637);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(14,9693);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(15,10607);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(15,9757);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(16,21202);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(16,19579);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(17,21222);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(17,19628);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(18,21308);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(18,19740);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(19,21235);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(19,19702);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(20,31675);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(20,29204);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(21,42712);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(21,39292);
+   hybrideta16to21displacedmuonpt10159->SetTotalEvents(22,0);
+   hybrideta16to21displacedmuonpt10159->SetPassedEvents(22,0);
+   hybrideta16to21displacedmuonpt10159->SetFillColor(19);
+
+   ci = TColor::GetColor("#009900");
+   hybrideta16to21displacedmuonpt10159->SetLineColor(ci);
+
+   ci = TColor::GetColor("#009900");
+   hybrideta16to21displacedmuonpt10159->SetMarkerColor(ci);
+   hybrideta16to21displacedmuonpt10159->SetMarkerStyle(22);
+   hybrideta16to21displacedmuonpt10159->Draw("samep");
+   
+   TLegend *leg = new TLegend(0.45,0.2,0.9,0.44,NULL,"brNDC");
+   leg->SetBorderSize(1);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(0);
+   leg->SetFillStyle(1001);
+   TLegendEntry *entry=leg->AddEntry("NULL","L1Mu with Q>=4","h");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("positioneta16to21displacedmuonpt10","CSC+GE11: Position-based algorithm","pl");
+
+   ci = TColor::GetColor("#0000ff");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+
+   ci = TColor::GetColor("#0000ff");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(20);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   /*entry=leg->AddEntry("hybrid_noGE21eta16to21displacedmuonpt10","Hybrid algorithm w/o GE21","pl");
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   */
+   entry=leg->AddEntry("hybrideta16to21displacedmuonpt10","CSC+GE11+GE21: Hybrid algorithm w GE21","pl");
+
+   ci = TColor::GetColor("#009900");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+
+   ci = TColor::GetColor("#009900");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(22);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   leg->Draw();
+   TLatex *   tex = new TLatex(0.4,0.6,"1.60<|#eta|<2.15, p_{T}^{L1}>10 GeV, no track veto");
+tex->SetNDC();
+   tex->SetTextSize(0.04);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   
+   TPaveText *pt = new TPaveText(0,0.942,1,1,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   AText = pt->AddText(" #scale[1.4]{#font[61]{CMS}} #font[52]{Simulation preliminary}                 14 TeV, 140 PU");
+   pt->Draw();
+   c1_n2->Modified();
+   c1_n2->cd();
+   c1_n2->SetSelected(c1_n2);
+   c1_n2->SaveAs("GEMCSC_dxy10_50_combined3_noveto_eff_20170131_pt10_fraction96_St2eta16to21_allnpar.png");
+   c1_n2->SaveAs("GEMCSC_dxy10_50_combined3_noveto_eff_20170131_pt10_fraction96_St2eta16to21_allnpar.pdf");
+}

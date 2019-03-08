@@ -1,0 +1,248 @@
+void GEMCSC_L1Mu_etaeff_20170208_pt9_simpt14_fraction94_st2eta16to21_all()
+{
+//=========Macro generated from canvas: c1_n2/c1_n2
+//=========  (Mon Sep  4 22:31:53 2017) by ROOT version6.08/06
+   TCanvas *c1_n2 = new TCanvas("c1_n2", "c1_n2",0,0,700,500);
+   gStyle->SetOptStat(0);
+   c1_n2->SetHighLightColor(2);
+   c1_n2->Range(0.7558139,-0.1685185,2.693798,1.127778);
+   c1_n2->SetFillColor(0);
+   c1_n2->SetBorderMode(0);
+   c1_n2->SetBorderSize(2);
+   c1_n2->SetGridx();
+   c1_n2->SetGridy();
+   c1_n2->SetTickx(1);
+   c1_n2->SetTicky(1);
+   c1_n2->SetLeftMargin(0.126);
+   c1_n2->SetTopMargin(0.06);
+   c1_n2->SetBottomMargin(0.13);
+   c1_n2->SetFrameBorderMode(0);
+   c1_n2->SetFrameBorderMode(0);
+   Double_t xAxis230[24] = {1, 1.2, 1.3, 1.45, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45, 2.5}; 
+   
+   TH1F *b1__221 = new TH1F("b1__221"," #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200",23, xAxis230);
+   b1__221->SetMinimum(0);
+   b1__221->SetMaximum(1.05);
+   b1__221->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   b1__221->SetLineColor(ci);
+   b1__221->GetXaxis()->SetTitle("true muon p_{T} GeV");
+   b1__221->GetXaxis()->SetLabelFont(42);
+   b1__221->GetXaxis()->SetLabelSize(0.05);
+   b1__221->GetXaxis()->SetTitleSize(0.05);
+   b1__221->GetXaxis()->SetTitleFont(42);
+   b1__221->GetYaxis()->SetTitle("bending angle cut efficiency");
+   b1__221->GetYaxis()->SetNdivisions(520);
+   b1__221->GetYaxis()->SetLabelFont(42);
+   b1__221->GetYaxis()->SetLabelSize(0.05);
+   b1__221->GetYaxis()->SetTitleSize(0.05);
+   b1__221->GetYaxis()->SetTitleOffset(1.1);
+   b1__221->GetYaxis()->SetTitleFont(42);
+   b1__221->GetZaxis()->SetLabelFont(42);
+   b1__221->GetZaxis()->SetLabelSize(0.035);
+   b1__221->GetZaxis()->SetTitleSize(0.035);
+   b1__221->GetZaxis()->SetTitleFont(42);
+   b1__221->Draw("");
+   Double_t xAxis411[24] = {1, 1.2, 1.3, 1.45, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45, 2.5}; 
+   
+   TEfficiency * hden0_clone411 = new TEfficiency("hden0_clone","",23,xAxis411);
+   
+   hden0_clone411->SetConfidenceLevel(0.6826895);
+   hden0_clone411->SetBetaAlpha(1);
+   hden0_clone411->SetBetaBeta(1);
+   hden0_clone411->SetWeight(1);
+   hden0_clone411->SetStatisticOption(0);
+   hden0_clone411->SetPosteriorMode(0);
+   hden0_clone411->SetShortestInterval(0);
+   hden0_clone411->SetTotalEvents(0,0);
+   hden0_clone411->SetPassedEvents(0,0);
+   hden0_clone411->SetTotalEvents(1,0);
+   hden0_clone411->SetPassedEvents(1,0);
+   hden0_clone411->SetTotalEvents(2,0);
+   hden0_clone411->SetPassedEvents(2,0);
+   hden0_clone411->SetTotalEvents(3,0);
+   hden0_clone411->SetPassedEvents(3,0);
+   hden0_clone411->SetTotalEvents(4,0);
+   hden0_clone411->SetPassedEvents(4,0);
+   hden0_clone411->SetTotalEvents(5,0);
+   hden0_clone411->SetPassedEvents(5,0);
+   hden0_clone411->SetTotalEvents(6,0);
+   hden0_clone411->SetPassedEvents(6,0);
+   hden0_clone411->SetTotalEvents(7,10366);
+   hden0_clone411->SetPassedEvents(7,10238);
+   hden0_clone411->SetTotalEvents(8,10216);
+   hden0_clone411->SetPassedEvents(8,9942);
+   hden0_clone411->SetTotalEvents(9,10060);
+   hden0_clone411->SetPassedEvents(9,9639);
+   hden0_clone411->SetTotalEvents(10,10114);
+   hden0_clone411->SetPassedEvents(10,9777);
+   hden0_clone411->SetTotalEvents(11,9862);
+   hden0_clone411->SetPassedEvents(11,9581);
+   hden0_clone411->SetTotalEvents(12,10094);
+   hden0_clone411->SetPassedEvents(12,9826);
+   hden0_clone411->SetTotalEvents(13,9902);
+   hden0_clone411->SetPassedEvents(13,9574);
+   hden0_clone411->SetTotalEvents(14,9924);
+   hden0_clone411->SetPassedEvents(14,9605);
+   hden0_clone411->SetTotalEvents(15,10018);
+   hden0_clone411->SetPassedEvents(15,9529);
+   hden0_clone411->SetTotalEvents(16,0);
+   hden0_clone411->SetPassedEvents(16,0);
+   hden0_clone411->SetTotalEvents(17,0);
+   hden0_clone411->SetPassedEvents(17,0);
+   hden0_clone411->SetTotalEvents(18,0);
+   hden0_clone411->SetPassedEvents(18,0);
+   hden0_clone411->SetTotalEvents(19,0);
+   hden0_clone411->SetPassedEvents(19,0);
+   hden0_clone411->SetTotalEvents(20,0);
+   hden0_clone411->SetPassedEvents(20,0);
+   hden0_clone411->SetTotalEvents(21,0);
+   hden0_clone411->SetPassedEvents(21,0);
+   hden0_clone411->SetTotalEvents(22,0);
+   hden0_clone411->SetPassedEvents(22,0);
+   hden0_clone411->SetTotalEvents(23,0);
+   hden0_clone411->SetPassedEvents(23,0);
+   hden0_clone411->SetTotalEvents(24,0);
+   hden0_clone411->SetPassedEvents(24,0);
+   hden0_clone411->SetFillColor(19);
+
+   ci = TColor::GetColor("#ff0000");
+   hden0_clone411->SetLineColor(ci);
+   hden0_clone411->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff0000");
+   hden0_clone411->SetMarkerColor(ci);
+   hden0_clone411->SetMarkerStyle(26);
+   hden0_clone411->Draw("samezp");
+   Double_t xAxis412[24] = {1, 1.2, 1.3, 1.45, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45, 2.5}; 
+   
+   TEfficiency * hden1_clone412 = new TEfficiency("hden1_clone","",23,xAxis412);
+   
+   hden1_clone412->SetConfidenceLevel(0.6826895);
+   hden1_clone412->SetBetaAlpha(1);
+   hden1_clone412->SetBetaBeta(1);
+   hden1_clone412->SetWeight(1);
+   hden1_clone412->SetStatisticOption(0);
+   hden1_clone412->SetPosteriorMode(0);
+   hden1_clone412->SetShortestInterval(0);
+   hden1_clone412->SetTotalEvents(0,0);
+   hden1_clone412->SetPassedEvents(0,0);
+   hden1_clone412->SetTotalEvents(1,0);
+   hden1_clone412->SetPassedEvents(1,0);
+   hden1_clone412->SetTotalEvents(2,0);
+   hden1_clone412->SetPassedEvents(2,0);
+   hden1_clone412->SetTotalEvents(3,0);
+   hden1_clone412->SetPassedEvents(3,0);
+   hden1_clone412->SetTotalEvents(4,0);
+   hden1_clone412->SetPassedEvents(4,0);
+   hden1_clone412->SetTotalEvents(5,0);
+   hden1_clone412->SetPassedEvents(5,0);
+   hden1_clone412->SetTotalEvents(6,0);
+   hden1_clone412->SetPassedEvents(6,0);
+   hden1_clone412->SetTotalEvents(7,7102);
+   hden1_clone412->SetPassedEvents(7,7047);
+   hden1_clone412->SetTotalEvents(8,6800);
+   hden1_clone412->SetPassedEvents(8,6708);
+   hden1_clone412->SetTotalEvents(9,6954);
+   hden1_clone412->SetPassedEvents(9,6786);
+   hden1_clone412->SetTotalEvents(10,6874);
+   hden1_clone412->SetPassedEvents(10,6741);
+   hden1_clone412->SetTotalEvents(11,6582);
+   hden1_clone412->SetPassedEvents(11,6478);
+   hden1_clone412->SetTotalEvents(12,6868);
+   hden1_clone412->SetPassedEvents(12,6755);
+   hden1_clone412->SetTotalEvents(13,6760);
+   hden1_clone412->SetPassedEvents(13,6640);
+   hden1_clone412->SetTotalEvents(14,6780);
+   hden1_clone412->SetPassedEvents(14,6676);
+   hden1_clone412->SetTotalEvents(15,6834);
+   hden1_clone412->SetPassedEvents(15,6709);
+   hden1_clone412->SetTotalEvents(16,0);
+   hden1_clone412->SetPassedEvents(16,0);
+   hden1_clone412->SetTotalEvents(17,0);
+   hden1_clone412->SetPassedEvents(17,0);
+   hden1_clone412->SetTotalEvents(18,0);
+   hden1_clone412->SetPassedEvents(18,0);
+   hden1_clone412->SetTotalEvents(19,0);
+   hden1_clone412->SetPassedEvents(19,0);
+   hden1_clone412->SetTotalEvents(20,0);
+   hden1_clone412->SetPassedEvents(20,0);
+   hden1_clone412->SetTotalEvents(21,0);
+   hden1_clone412->SetPassedEvents(21,0);
+   hden1_clone412->SetTotalEvents(22,0);
+   hden1_clone412->SetPassedEvents(22,0);
+   hden1_clone412->SetTotalEvents(23,0);
+   hden1_clone412->SetPassedEvents(23,0);
+   hden1_clone412->SetTotalEvents(24,0);
+   hden1_clone412->SetPassedEvents(24,0);
+   hden1_clone412->SetFillColor(19);
+
+   ci = TColor::GetColor("#0000ff");
+   hden1_clone412->SetLineColor(ci);
+   hden1_clone412->SetLineWidth(2);
+
+   ci = TColor::GetColor("#0000ff");
+   hden1_clone412->SetMarkerColor(ci);
+   hden1_clone412->SetMarkerStyle(25);
+   hden1_clone412->Draw("samezp");
+   
+   TLegend *leg = new TLegend(0.45,0.2,0.8,0.5,NULL,"brNDC");
+   leg->SetBorderSize(1);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(0);
+   leg->SetFillStyle(1001);
+   TLegendEntry *entry=leg->AddEntry("NULL","GE11-ME11 and GE21-ME21","h");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("hden0_clone","GE11only","pl");
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff0000");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(26);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("hden1_clone","GE11GE21","pl");
+
+   ci = TColor::GetColor("#0000ff");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+
+   ci = TColor::GetColor("#0000ff");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(25);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   leg->Draw();
+   TLatex *   tex = new TLatex(0.35,0.57,"1.65<|#eta|<2.10, p_{T}^{L1}>9 GeV");
+tex->SetNDC();
+   tex->SetLineWidth(2);
+   tex->Draw();
+   
+   TPaveText *pt = new TPaveText(0,0.942,1,1,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   AText = pt->AddText(" #scale[1.4]{#font[61]{CMS}} Phase-2 Simulation         #sqrt{s}=14 TeV, <PU>=200");
+   pt->Draw();
+   c1_n2->Modified();
+   c1_n2->cd();
+   c1_n2->SetSelected(c1_n2);
+}

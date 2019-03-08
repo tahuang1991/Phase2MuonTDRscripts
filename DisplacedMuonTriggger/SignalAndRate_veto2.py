@@ -100,6 +100,11 @@ def gethist1D(chain, den, todraw="pt"):
     chain.Draw("fabs(%s) >> h1"%todraw,den)
     return h1
 
+def gethist1DEta(chain, den, todraw="eta"):
+    h1 = ROOT.TH1F("h1","h1",50, 0.0, 2.5)
+    chain.Draw("fabs(%s) >> h1"%todraw,den)
+    return h1
+
 def getOverallEff(Teff, xinit):
     hden = Teff.GetCopyTotalHisto()
     hnum = Teff.GetCopyPassedHisto()
@@ -159,6 +164,10 @@ def getFinalLUTValue(pt, fraction, etamin, etamax, npar, suffix, filename):
     readinLUT = open(filename,'r')
     startread = [False, False, False]
     endread = [False, False, False]
+    if etamax > 2.0 and etamax <= 2.2:
+	    etamax = 2.1
+    if etamin<2.2 and etamin>=2.0:
+	    etamin = 2.0
     
     inpar = 0
     for line in readinLUT:
@@ -196,6 +205,90 @@ def getFinalLUTValue(pt, fraction, etamin, etamax, npar, suffix, filename):
 	#print "algo ",key, " value ",algos_lut[key]
     return algos_lut
 		    
+#_____________________________________________________________
+def makeEffplot_eta(chainlist,todraw, den, num, etamin, etamax, xtitle,ytitle,leg, legheader, txt,picname):
+	
+    b1 = ROOT.TH1F("b1","b1", 50, 0.0, 2.5)
+    b1.GetYaxis().SetRangeUser(0.0,1.05)
+    b1.GetYaxis().SetTitleOffset(1.1)
+    b1.GetYaxis().SetNdivisions(520)
+    b1.GetYaxis().SetTitle(xtitle)
+    b1.GetXaxis().SetTitle(ytitle)
+    b1.GetXaxis().SetTitleSize(0.05)
+    b1.GetXaxis().SetLabelSize(0.05)
+    b1.GetYaxis().SetTitleSize(0.05)
+    b1.GetYaxis().SetLabelSize(0.05)
+    b1.SetTitle(" #scale[1.4]{#font[61]{CMS}} #font[52]{Simulation preliminary}"+"  "*8+" 14 TeV, 140 PU")
+    
+    
+    Teffs = []
+    hdens = []
+    hnums = []
+    npars = 4
+    Upperlimits = [0 for x in range(npars)]
+    #print "chainlist ",chainlist
+    
+    if (etamin<1.6):
+	    ring = 2
+    if (etamin>=1.6):
+	    ring = 1
+    #legend = ROOT.TLegend(0.45,0.15,0.9,0.5)
+    legend = ROOT.TLegend(0.45,0.20,0.8,0.50)
+    legend.SetFillColor(ROOT.kWhite)
+    legend.SetTextFont(42)
+    legend.SetTextSize(.05)
+    legend.SetHeader("%s"%legheader)
+    muons = ["Prompt Muons","Displaced Muons, 5<|d_{xy}|<50cm"]
+    for n in range(len(chainlist)):
+	#	print "n ",n," den ",den[n]," num ",num[n]
+	hden = ROOT.TH1F("hden%d"%n,"hden%d"%n,50, 0.0, 2.5)
+	hnum = ROOT.TH1F("hnum%d"%n,"hnum%d"%n,50, 0.0, 2.5)
+	for i in range(0, 50):
+		hden.SetBinContent(i, 0)
+		hnum.SetBinContent(i,.0)
+	#Teffs.append(ROOT.TEfficiency(hnum, hden))
+	hdens.append(hden)
+	hnums.append(hnum)
+	chain = chainlist[n]
+	#print "den ",den[n]," todraw ",todraw
+	hdens[n].Add(gethist1DEta(chain, den[n],todraw))
+	hnums[n].Add(gethist1DEta(chain, den[n]+" && %s"%(num[n]), todraw))
+
+    c1 = ROOT.TCanvas()
+    c1.SetGridx()
+    c1.SetGridy()
+    c1.SetTickx()
+    c1.SetTicky()
+
+    b1.SetStats(0)
+    b1.Draw()
+    for n in range(len(chainlist)):
+	Teffs.append(ROOT.TEfficiency(hnums[n],hdens[n]))	
+	SetOwnership(Teffs[n], False)
+	m = len(Teffs)-1
+	Teffs[m].SetLineColor(color[n])
+	Teffs[m].SetMarkerColor(color[n])
+	Teffs[m].SetMarkerStyle(maker[n])
+	Teffs[m].Draw("same")
+	legend.AddEntry(Teffs[n],"%s"%leg[n],"pl")
+    #print "Teffs ",Teffs
+    #Teffs[0].Print("ALL")
+    legend.Draw("same")
+
+    tex = ROOT.TLatex(0.35,0.57,"%s"%txt)
+    #tex = ROOT.TLatex(0.45,0.57,"#splitline{%s}{%d%% eff at %d [GeV]}"%(txt,fractionToKeep,pt))
+    #tex = ROOT.TLatex(0.45,0.57,"#splitline{%s}{check the sign of #Delta Y_{12} and #Delta Y_{23}}"%(txt))
+    tex.SetTextSize(0.05)
+    tex.SetTextFont(62)
+    tex.SetNDC()
+    tex.Draw("same")
+    #c1.Update()
+    c1.SaveAs("%s.png"%(picname))
+    c1.SaveAs("%s.pdf"%(picname))
+    c1.SaveAs("%s.C"%(picname))
+    return Teffs
+	
+
 
 #_____________________________________________________________
 def makeEffplot_v2(chainlist,todraw, den, num, etamin, etamax, xtitle,ytitle,leg, legheader, txt,picname):
@@ -242,6 +335,7 @@ def makeEffplot_v2(chainlist,todraw, den, num, etamin, etamax, xtitle,ytitle,leg
 	hdens.append(hden)
 	hnums.append(hnum)
 	chain = chainlist[n]
+	#print "den ",den[n]
 	hdens[n].Add(gethist1D(chain, den[n],todraw))
 	hnums[n].Add(gethist1D(chain, den[n]+" && %s"%(num[n]), todraw))
 
@@ -279,8 +373,55 @@ def makeEffplot_v2(chainlist,todraw, den, num, etamin, etamax, xtitle,ytitle,leg
     c1.SaveAs("%s.C"%(picname))
     return Teffs
 	
+def makeplotsEta(Teffs, legs, legheader, text, picname):
 
-def makeplots(Teffs, legs, text, picname):
+    b1 = ROOT.TH1F("b1","b1",50, 0.0, 2.5)
+    b1.GetYaxis().SetRangeUser(0.0,1.05)
+    b1.GetYaxis().SetTitleOffset(1.1)
+    b1.GetYaxis().SetNdivisions(520)
+    b1.GetYaxis().SetTitle("Trigger efficiency")
+    b1.GetXaxis().SetTitle("|#eta|")
+    b1.GetXaxis().SetTitleSize(0.05)
+    b1.GetXaxis().SetLabelSize(0.05)
+    b1.GetYaxis().SetTitleSize(0.05)
+    b1.GetYaxis().SetLabelSize(0.05)
+    b1.SetTitle(" #scale[1.4]{#font[61]{CMS}} #font[52]{Simulation preliminary}"+"  "*8+" 14 TeV, 140 PU")
+
+    c1 = ROOT.TCanvas()
+    c1.SetGridx()
+    c1.SetGridy()
+    c1.SetTickx()
+    c1.SetTicky()
+
+    dy_leg = 0.06*(len(Teffs)+1)
+    
+    legend = ROOT.TLegend(0.45,0.2,0.9,0.2+dy_leg)
+    legend.SetFillColor(ROOT.kWhite)
+    legend.SetTextFont(42)
+    #legend.SetTextSize(.05)
+    legend.SetHeader("%s"%legheader)
+    b1.SetStats(0)
+    b1.Draw()
+    for n in range(len(Teffs)):
+	Teffs[n].SetLineColor(color[n])
+	Teffs[n].SetMarkerColor(color[n])
+	Teffs[n].SetMarkerStyle(maker[n])
+	Teffs[n].Draw("samep")
+	legend.AddEntry(Teffs[n],"%s"%legs[n],"pl")
+    legend.Draw("same")
+
+    tex = ROOT.TLatex(0.4,0.7,"%s"%text)
+    tex.SetTextSize(0.04)
+    tex.SetTextFont(62)
+    tex.SetNDC()
+    tex.Draw("same")
+    #c1.Update()
+    c1.SaveAs("%s.png"%(picname))
+    c1.SaveAs("%s.pdf"%(picname))
+    c1.SaveAs("%s.C"%(picname))
+
+
+def makeplots(Teffs, legs, legheader, text, picname):
 
     b1 = ROOT.TH1F("b1","b1",len(ptbins)-1, ptbins)
     b1.GetYaxis().SetRangeUser(0.0,1.05)
@@ -300,13 +441,13 @@ def makeplots(Teffs, legs, text, picname):
     c1.SetTickx()
     c1.SetTicky()
 
-    dy_leg = 0.06*len(Teffs)
+    dy_leg = 0.06*(len(Teffs)+1)
     
     legend = ROOT.TLegend(0.45,0.2,0.9,0.2+dy_leg)
     legend.SetFillColor(ROOT.kWhite)
     legend.SetTextFont(42)
     #legend.SetTextSize(.05)
-    #legend.SetHeader("%"%legheader)
+    legend.SetHeader("%s"%legheader)
     b1.SetStats(0)
     b1.Draw()
     for n in range(len(Teffs)):
@@ -376,8 +517,8 @@ def plotshistograms(hists, legs,legheader, text, picname, RateVsPt=False):
     hs.GetHistogram().GetYaxis().SetTitle("Trigger rate [kHz]")
 	
     tex = ROOT.TLatex(0.2,texh,"%s"%text)
-    tex.SetTextSize(0.04)
-    tex.SetTextFont(52)
+    tex.SetTextSize(0.045)
+    tex.SetTextFont(62)
     tex.SetNDC()
     tex.Draw("same")
     #c1.Update()
@@ -389,6 +530,8 @@ def plotshistograms(hists, legs,legheader, text, picname, RateVsPt=False):
 def plotsgraphs(graphs, legs, legheader, text, picname):
 
     c1 = TCanvas()
+    c1.SetGridx()
+    c1.SetGridy()
     mgerr =TMultiGraph()
     #print "size ", len(efflist_p[npar]), " ",efflist_p[npar]
     dy_leg = 0.06*(len(graphs)+1)
@@ -409,18 +552,18 @@ def plotsgraphs(graphs, legs, legheader, text, picname):
 
     mgerr.Draw("AP")
     legend.Draw("same")
-    c1.Update()
     mgerr.SetMinimum(0)
     mgerr.SetTitle(" #scale[1.4]{#font[61]{CMS}} #font[52]{Simulation preliminary}"+"  "*10+" 14 TeV, %d PU"%pu)
-    mgerr.GetXaxis().SetTitle("Trigger efficiency")
+    mgerr.GetXaxis().SetTitle("Trigger plateau efficiency")
     mgerr.GetYaxis().SetTitle("Trigger rate [kHz]")
 
-    tex = ROOT.TLatex(0.2,0.68+dy_leg,"%s"%text)
-    tex.SetTextSize(0.05)
+    tex = ROOT.TLatex(0.2,0.6,"%s"%text)
+    tex.SetTextSize(0.045)
     tex.SetTextFont(62)
     tex.SetNDC()
     tex.Draw("same")
     #c1.Update()
+    c1.Update()
     c1.SaveAs("%s.png"%(picname))
     c1.SaveAs("%s.pdf"%(picname))
     c1.SaveAs("%s.C"%(picname))
@@ -439,7 +582,7 @@ def getRateVsEta(L1MuTriggerRate, histname, myetabin, cut, vetotype):
     hist.GetXaxis().SetTitle("L1Mu |#eta|")
     hist.GetYaxis().SetTitle("Trigger Rate [kHz]")
     hist.Scale(SF)
-    hist.Sumw2()
+    #hist.Sumw2()
     return hist
 
 
@@ -1205,17 +1348,31 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
     h_total = ratefile.Get("h_eventcount")
 
     rateEvents = h_total.GetEntries()
+    signalsample1 = "/Users/taohuang/Documents/CSCTrigger/GEMCSCbending_20170221/GEMCSC_Ana_ctau0_Pt2_50_PU140_20170712_GE11GE21/out_ana_1.root"
     L1MuTriggerRate = TChain("L1MuTriggerRate")
     addFilesToChain(L1MuTriggerRate, ratesample)
     GEMCSCTrackCh0 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ALL")
-    #GEMCSCTrackCh1 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ALL")
-    #addFilesToChain(GEMCSCTrackCh1, signalsample) 
+    GEMCSCTrackCh1 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ALL")
+    addFilesToChain(GEMCSCTrackCh1, signalsample1) 
     addFilesToChain(GEMCSCTrackCh0, signalsample) 
+    GEMCSCTrackME31_0 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ME31")
+    GEMCSCTrackME31_1 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ME31")
+    addFilesToChain(GEMCSCTrackME31_1, signalsample1) 
+    addFilesToChain(GEMCSCTrackME31_0, signalsample) 
+    GEMCSCTrackCh0.AddFriend(GEMCSCTrackME31_0)
+    GEMCSCTrackCh1.AddFriend(GEMCSCTrackME31_1)
+    GEMCSCTrackME32_0 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ME32")
+    GEMCSCTrackME32_1 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ME32")
+    addFilesToChain(GEMCSCTrackME32_1, signalsample1) 
+    addFilesToChain(GEMCSCTrackME32_0, signalsample) 
+    GEMCSCTrackCh0.AddFriend(GEMCSCTrackME32_0)
+    GEMCSCTrackCh1.AddFriend(GEMCSCTrackME32_1)
 
     Teff_out = ROOT.TFile(outputrootfile,"UPDATE")
     Teffall = []
     Teffall2 = []
-    Teffall = []
+    Teffalleta = []
+    Teffalleta2 = []
     hrateall = []
     hrateall2 = []
     for neta in range(len(netas)-1):
@@ -1227,6 +1384,8 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
     #if (netas[0]==1.6):
        etamin = netas[neta]
        etamax = netas[neta+1]
+       Teffallnparseta = []
+       Teffallnparseta_veto2 = []
        Teffallnpars = []
        Teffallnpars_veto2 = []
        hrateallnpars = []
@@ -1239,24 +1398,35 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
 	    me21 = evenodds[npar].split(',')[1]
 	    chambers = "ME1%d %s,ME2%d %s,ME3%d %s"%(ring, me11, ring, me21, ring, me21)
 	    #st_title = ["Prompt muon, 2<p_{T}<%d"%pt1, "Displaced Muon, 10<|d_{xy}|<50, p_{T}>%d"%pt]
+	    me31_n = 1
+	    if me21 == "even":
+		    me31_n = 2
+	    ME31cut = " && (trk_eff_CSC_ME3%d.has_lct&%d)>0"%(ring, me31_n)
 	    algos_lut = getFinalLUTValue(pt, fraction, etamin, etamax, npar, "", allLUTfile)
 	    algos_lut_noGE21 = getFinalLUTValue(pt, fraction, etamin, etamax, npar, "_noGE21", allLUTfile)
 	    ddY_cut = algos_lut["Position"]
 	    dphi_dir_cut = algos_lut["Direction"]
-	    maxa = algos_lut["Hybrid"][0] 
-	    maxb = algos_lut["Hybrid"][1] 
-	    alpha= algos_lut["Hybrid"][2]
-	    x0 =  algos_lut["Hybrid"][3]
-	    y0 =  algos_lut["Hybrid"][4]
-	    maxa1 = maxa; maxb1 = maxb; alpha1 = alpha; x01 = x0; y01= y0
-	    if ring==1:
+	    print "ddY_cut ",ddY_cut," dphi_dir_cut ",dphi_dir_cut
+	    if len(algos_lut["Hybrid"]) == 5:
+	      maxa = algos_lut["Hybrid"][0] 
+	      maxb = algos_lut["Hybrid"][1] 
+	      alpha= algos_lut["Hybrid"][2]
+	      x0 =  algos_lut["Hybrid"][3]
+	      y0 =  algos_lut["Hybrid"][4]
+	      maxa1 = maxa; maxb1 = maxb; alpha1 = alpha; x01 = x0; y01= y0
+	      if ring==1:
 		maxa1 = algos_lut_noGE21["Hybrid_noGE21"][0] 
 		maxb1 = algos_lut_noGE21["Hybrid_noGE21"][1] 
 		alpha1= algos_lut_noGE21["Hybrid_noGE21"][2]
 		x01 =  algos_lut_noGE21["Hybrid_noGE21"][3]
 		y01 =  algos_lut_noGE21["Hybrid_noGE21"][4]
+	    else:
+	      maxa = 1; maxb = 1; alpha= 0.0; x0 = 99.; y0 = 99.
+	      maxa1 = maxa; maxb1 = maxb; alpha1 = alpha; x01 = x0; y01= y0
+
 	    
-	    ratecut = "maxPositionPt && L1Mu_quality>= 4 && abs(L1Mu_eta)>=%f && abs(L1Mu_eta)<%f && npar==%d"%(etamin, etamax, npar)
+	    L1Mucut = "&& L1Mu_quality>=4 && hasME1 && hasME2"
+	    ratecut = "maxPositionPt && abs(L1Mu_eta)>=%f && abs(L1Mu_eta)<%f && npar==%d"%(etamin, etamax, npar)+L1Mucut
 	    #etacuts ="&& meRing==%d"%ring+"&& fabs(trk_eff_CSC_ME2%d.eta_lct_%s)>%f && fabs(trk_eff_CSC_ME2%d.eta_lct_%s)<%f"%(ring,me21,etamin,ring,me21,etamax)
 	    checkvalue = "&& fabs(deltay23_test)<50 && fabs(deltay12_test)<50 && fabs(%s)>0 && fabs(%s)>0 && meRing==%d"%(xaxis, yaxis,ring)
 	    checkx = "&& fabs(%s)<60 && fabs(%s)>0 "%(xaxis, xaxis)
@@ -1264,8 +1434,13 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
 	    checky_noGE21 = "&& fabs(%s)<2.0 && fabs(%s)>0 "%(yaxis_noGE21, yaxis_noGE21)
 	    if ring==2:
 		checky_noGE21 = checky
+	    checkx = ""; checky = ""; checky_noGE21 = ""
 	    #cutsbase =  ["meRing==%d && "%ring+"hasSt1St2St3 && fabs(eta_st2_L1)>%f && fabs(eta_st2_L1)<%f && npar_L1==%d"%(etamin,etamax, npar), "meRing==%d && "%ring+"hasSt1St2St3 && fabs(eta_st2_L1)>%f && fabs(eta_st2_L1)<%f && fabs(genGdMu_dxy)>10 && fabs(genGdMu_dxy)<50 && fabs(genGdMu_dR)<0.1 && npar_L1==%d"%(etamin,etamax, npar)]
-	    cutsbase = "L1Mu_quality>=4 && meRing==%d && "%ring+"hasSt1St2St3 && fabs(eta_st2_L1)>%f && fabs(eta_st2_L1)<%f && fabs(genGdMu_dxy)>10 && fabs(genGdMu_dxy)<50 && fabs(genGdMu_dR)<0.1 && npar_L1==%d"%(etamin,etamax, npar)
+	    #prompt muon
+	    #cutsbase = " meRing==%d && "%ring+"fabs(eta_st2_L1)>%f && fabs(eta_st2_L1)<%f && npar_L1==%d"%(etamin,etamax, npar)+L1Mucut
+	    cutsbase = "has_gmtCand>0 && meRing==%d && "%ring+"fabs(eta_st2_sim)>%f && fabs(eta_st2_sim)<%f && npar_sim==%d"%(etamin,etamax, npar)+ME31cut
+	    #displaced muon
+	    #cutsbase = " meRing==%d && "%ring+"fabs(eta_st2_L1)>%f && fabs(eta_st2_L1)<%f && fabs(genGdMu_dxy)>10 && fabs(genGdMu_dxy)<50 && fabs(genGdMu_dR)<0.1 && npar_L1==%d"%(etamin,etamax, npar)
 	    cuts_p =  [cutsbase+checkx]
 	    cuts_d =  [cutsbase+checky]
 	    #cuts_d =  ["meRing==%d && "%ring+"hasSt1St2St3 && fabs(deltay12_fit)<50 &&  fabs(deltay23_fit)<50 && fabs(eta_st2_sh)>%f && fabs(eta_st2_sh)<%f && npar==%d"%(etamin,etamax, npar)+checky, "meRing==%d && "%ring+" hasSt1St2St3 && fabs(deltay12_fit)<50 &&  fabs(deltay23_fit)<50 && fabs(eta_st2_sh)>%f && fabs(eta_st2_sh)<%f && fabs(genGdMu_dxy)>10 && fabs(genGdMu_dxy)<50 && fabs(genGdMu_dR)<0.1 && npar==%d"%(etamin,etamax, npar)+checky]
@@ -1313,9 +1488,11 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
 	    ellipse_noGE21 = "(%s*%s/(%f*%f)+%s*%s/(%f*%f))<=1.0"%(xaxis1_noGE21, xaxis1_noGE21, maxa1, maxa1, yaxis1_noGE21, yaxis1_noGE21, maxb1, maxb1)
 	    if ring ==2 :
 		ellipse_noGE21 = ellipse
-	    Teffs = makeEffplot_v2([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh0], "pt", [cutsbase+checkx, cutsbase+checkx+checky_noGE21, cutsbase+checkx+checky], ["fabs(%s)<%f"%(xaxis, ddY_cut), ellipse_noGE21, ellipse], etamin, etamax,"true muon p_{T} GeV","Trigger efficiency",legs3,"no tracker veto",text,SBPlots+"GEMCSC_dxy10_50_combined_eff_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
-	    Teffs_veto2 = makeEffplot_v2([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh0], "pt", [cutsbase+checkx, cutsbase+checkx+checky_noGE21, cutsbase+checkx+checky], ["fabs(%s)<%f"%(xaxis, ddY_cut)+"&& !isL1MediumVeto", ellipse_noGE21+"&& !isL1MediumVeto", ellipse+"&& !isL1MediumVeto"], etamin, etamax,"true muon p_{T} GeV","Trigger efficiency",legs3,"medium tracker veto",text,SBPlots+"GEMCSC_dxy10_50_mediumveto_combined_eff_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
-	    #Teffs_veto2 = makeEffplot_v2([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh0], "pt", [cutsbase+checkx, cutsbase+checkx+checky_noGE21, cutsbase+checkx+checky], ["fabs(%s)<%f"%(xaxis, ddY_cut)+"&& isSimMediumVeto", ellipse_noGE21+"&& isSimMediumVeto", ellipse+"&& isSimMediumVeto"], etamin, etamax,"true muon p_{T} GeV","Trigger efficiency",legs3,"medium tracker veto",text,SBPlots+"GEMCSC_dxy10_50_mediumveto_combined_eff_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
+	    Teffs = makeEffplot_v2([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh1], "pt", [cutsbase+checkx, cutsbase+checkx+checky_noGE21, cutsbase+checkx+checky], ["fabs(%s)<%f"%(xaxis, ddY_cut)+L1Mucut, ellipse_noGE21+L1Mucut, ellipse+L1Mucut], etamin, etamax,"true muon p_{T} GeV","Trigger efficiency",legs3,"no track veto",text,SBPlots+"GEMCSC_dxy10_50_combined_eff_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
+	    Teffs_veto2 = makeEffplot_v2([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh1], "pt", [cutsbase+checkx, cutsbase+checkx+checky_noGE21, cutsbase+checkx+checky], ["fabs(%s)<%f"%(xaxis, ddY_cut)+"&& !isL1MediumVeto"+L1Mucut, ellipse_noGE21+"&& !isL1MediumVeto"+L1Mucut, ellipse+"&& !isL1MediumVeto"+L1Mucut], etamin, etamax,"true muon p_{T} GeV","Trigger efficiency",legs3,"medium track veto",text,SBPlots+"GEMCSC_dxy10_50_mediumveto_combined_eff_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
+	    Teffseta = makeEffplot_eta([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh1], "abs(eta_st2_sim)", [cutsbase+checkx+"&& pt>=%d"%(pt+5), cutsbase+checkx+checky_noGE21+"&& pt>=%d"%(pt+5), cutsbase+checkx+checky+"&& pt>=%d"%(pt+5)], ["fabs(%s)<%f"%(xaxis, ddY_cut)+L1Mucut, ellipse_noGE21+L1Mucut, ellipse+L1Mucut], etamin, etamax,"|#eta| at 2nd CSC station","Trigger efficiency",legs3,"no track veto",text,SBPlots+"GEMCSC_dxy10_50_combined_effvseta_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
+	    Teffseta_veto2 = makeEffplot_eta([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh1], "abs(eta_st2_sim)", [cutsbase+checkx+"&& pt>=%d"%(pt+5), cutsbase+checkx+checky_noGE21+"&& pt>=%d"%(pt+5), cutsbase+checkx+checky+"&& pt>=%d"%(pt+5)], ["fabs(%s)<%f"%(xaxis, ddY_cut)+"&& !isL1MediumVeto"+L1Mucut, ellipse_noGE21+"&& !isL1MediumVeto"+L1Mucut, ellipse+"&& !isL1MediumVeto"+L1Mucut], etamin, etamax,"|#eta| at 2nd CSC station","Trigger efficiency",legs3,"medium track veto",text,SBPlots+"GEMCSC_dxy10_50_mediumveto_combined_effvseta_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
+	    #Teffs_veto2 = makeEffplot_v2([GEMCSCTrackCh0, GEMCSCTrackCh0, GEMCSCTrackCh0], "pt", [cutsbase+checkx, cutsbase+checkx+checky_noGE21, cutsbase+checkx+checky], ["fabs(%s)<%f"%(xaxis, ddY_cut)+"&& isSimMediumVeto", ellipse_noGE21+"&& isSimMediumVeto", ellipse+"&& isSimMediumVeto"], etamin, etamax,"true muon p_{T} GeV","Trigger efficiency",legs3,"medium track veto",text,SBPlots+"GEMCSC_dxy10_50_mediumveto_combined_eff_20170131_pt%d_fraction%d_st2eta%dto%d_npar%d"%(pt, fraction, int(etamin*10),int(etamax*10), npar))
 	    #peff2, perr2 = getOverallEff(Teffs_ddY[1], pt)
 	    peff, perr = getOverallEff(Teffs[0], pt)
 	    heff, herr = getOverallEff(Teffs[2], pt)
@@ -1327,6 +1504,8 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
 	    #makeplots([Teffs_ddY[0], Teffs_dphi_dir[0], Teffs[0]], legs3, text,SBPlots+"GEMCSC_ctau0andctau1000_combined3_eff_20170131_pt%d_ptbg%d_fraction%d_fractiond%d_St2eta%dto%d_npar%d_dirinterstation%s"%(pt, pt1, fraction, fraction_d, int(etamin*10),int(etamax*10), npar, extrapic)) 
 	    Teffallnpars.append(Teffs)
 	    Teffallnpars_veto2.append(Teffs_veto2)
+	    Teffallnparseta.append(Teffseta)
+	    Teffallnparseta_veto2.append(Teffseta_veto2)
 	    #Teffallnpars_d.append(Teffs)
 	    #Teffallnpars_d.append(Teffs_dphi_dir)
 	    Teffs[0].SetName("positioneta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%d"%fraction)
@@ -1335,6 +1514,12 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
 	    Teffs_veto2[0].SetName("positionmediumvetoeta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%d"%fraction)
 	    Teffs_veto2[2].SetName("hybridmediumvetoeta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%d"%fraction)
 	    Teffs_veto2[1].SetName("hybrid_noGE21mediumvetoeta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%d"%fraction)
+	    Teffseta[0].SetName("positioneta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%deta"%fraction)
+	    Teffseta[2].SetName("hybrideta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%deta"%fraction)
+	    Teffseta[1].SetName("hybrid_noGE21eta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%deta"%fraction)
+	    Teffseta_veto2[0].SetName("positionmediumvetoeta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%deta"%fraction)
+	    Teffseta_veto2[2].SetName("hybridmediumvetoeta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%deta"%fraction)
+	    Teffseta_veto2[1].SetName("hybrid_noGE21mediumvetoeta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%d"%(pt)+"fraction%deta"%fraction)
 	    #Teffs_ddY[0].SetName("poistioneta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"promptmuonpt%dptbg%d"%(pt,pt1)+"fraction%d"%fraction+extrapic)
 	    #Teffs_ddY[0].SetName("poistioneta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"promptmuonpt%dptbg%d"%(pt,pt1)+"fraction%d"%fraction+extrapic)
 	    #Teffs_dphi_dir[0].SetName("directioneta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"promptmuonpt%dptbg%d"%(pt,pt1)+"fraction%d"%fraction+extrapic)
@@ -1343,42 +1528,67 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
 	    #Teffs_dphi_dir[1].SetName("directioneta%dto%dnpar%d"%(int(etamin*10),int(etamax*10), npar)+"displacedmuonpt%dptbg%d"%(pt,pt1)+"fraction%d"%fraction+extrapic)
 	    Teffs[0].Write();Teffs[1].Write();Teffs[2].Write()
 	    Teffs_veto2[0].Write();Teffs_veto2[1].Write();Teffs_veto2[2].Write()
+	    Teffseta[0].Write();Teffseta[1].Write();Teffseta[2].Write()
+	    Teffseta_veto2[0].Write();Teffseta_veto2[1].Write();Teffseta_veto2[2].Write()
 	    #Teffs_ddY[0].Write()
 	    #Teffs_dphi_dir[0].Write()
 	    #Teffs_ddY[1].Write()
 	    #Teffs_dphi_dir[1].Write()
        #print "Teffallnpars len ",len(Teffallnpars),Teffallnpars
+       Teffeta0_p = Teffallnparseta[0][0]; Teffeta0_h = Teffallnparseta[0][2];Teffeta0_h_noGE21 = Teffallnparseta[0][1]
+       Teffeta2_p = Teffallnparseta_veto2[0][0]; Teffeta2_h = Teffallnparseta_veto2[0][2];Teffeta2_h_noGE21 = Teffallnparseta_veto2[0][1]
        Teff0_p = Teffallnpars[0][0]; Teff0_h = Teffallnpars[0][2];Teff0_h_noGE21 = Teffallnpars[0][1]
        Teff2_p = Teffallnpars_veto2[0][0]; Teff2_h = Teffallnpars_veto2[0][2];Teff2_h_noGE21 = Teffallnpars_veto2[0][1]
        hrate0_p = hrateallnpars[0][0]; hrate0_h = hrateallnpars[0][2]; hrate0_h_noGE21 = hrateallnpars[0][1]
        hrate2_p = hrateallnpars_veto2[0][0]; hrate2_h = hrateallnpars_veto2[0][2]; hrate2_h_noGE21 = hrateallnpars_veto2[0][1]
        for xpar in range(len(Teffallnpars)-1):
+	       
+	    Teffeta0_p.Add(Teffallnparseta[xpar+1][0])		   
+	    Teffeta0_h.Add(Teffallnparseta[xpar+1][2])		   
+	    Teffeta0_h_noGE21.Add(Teffallnparseta[xpar+1][1])		   
+	    Teffeta2_p.Add(Teffallnparseta_veto2[xpar+1][0])		   
+	    Teffeta2_h.Add(Teffallnparseta_veto2[xpar+1][2])		   
+	    Teffeta2_h_noGE21.Add(Teffallnparseta_veto2[xpar+1][1])		   
+	       
 	    Teff0_p.Add(Teffallnpars[xpar+1][0])		   
 	    Teff0_h.Add(Teffallnpars[xpar+1][2])		   
 	    Teff0_h_noGE21.Add(Teffallnpars[xpar+1][1])		   
 	    Teff2_p.Add(Teffallnpars_veto2[xpar+1][0])		   
 	    Teff2_h.Add(Teffallnpars_veto2[xpar+1][2])		   
 	    Teff2_h_noGE21.Add(Teffallnpars_veto2[xpar+1][1])		   
+
 	    hrate0_p.Add(hrateallnpars[xpar+1][0])
 	    hrate0_h.Add(hrateallnpars[xpar+1][2])
 	    hrate0_h_noGE21.Add(hrateallnpars[xpar+1][1])
 	    hrate2_p.Add(hrateallnpars_veto2[xpar+1][0])
 	    hrate2_h.Add(hrateallnpars_veto2[xpar+1][2])
 	    hrate2_h_noGE21.Add(hrateallnpars_veto2[xpar+1][1])
+
+       Teffalleta.append([Teffeta0_p, Teffeta0_h_noGE21, Teffeta0_h])
+       Teffalleta2.append([Teffeta2_p, Teffeta2_h_noGE21, Teffeta2_h])
        Teffall.append([Teff0_p, Teff0_h_noGE21, Teff0_h])
        Teffall2.append([Teff2_p, Teff2_h_noGE21, Teff2_h])
        hrateall.append([hrate0_p, hrate0_h_noGE21, hrate0_h])
        hrateall2.append([hrate2_p, hrate2_h_noGE21, hrate2_h])
-       peff0, perr0 = getOverallEff(Teff0_p, pt)
-       peff2, perr2 = getOverallEff(Teff2_p, pt)
-       heff0_noGE21, herr0_noGE21 = getOverallEff(Teff0_h_noGE21, pt)
-       heff2_noGE21, herr2_noGE21 = getOverallEff(Teff2_h_noGE21, pt)
-       heff0, herr0 = getOverallEff(Teff0_h, pt)
-       heff2, herr2 = getOverallEff(Teff2_h, pt)
-       #print "pt ",pt," fraction ",fraction," etamin ",etamin, " etamax ",etamax," allnpar peff0 ",peff0, " heff0 ",heff0," heff0_noGE21 ",heff0_noGE21
-       #print "Rate entreis p ",hrate0_p.GetEntries()," h_noGE21 ",hrate0_h_noGE21.GetEntries()," h ",hrate0_h.GetEntries()
-       #print "all eff, medium veto p ",peff2," heff2_noGE21 ",heff2_noGE21," heff2 ",heff2
-       #print "Rate, medium veto,  entreis p ",hrate2_p.GetEntries()," h_noGE21 ",hrate2_h_noGE21.GetEntries()," h ",hrate2_h.GetEntries()
+       peff0, perr0 = getOverallEff(Teff0_p, pt+5)
+       peff2, perr2 = getOverallEff(Teff2_p, pt+5)
+       heff0_noGE21, herr0_noGE21 = getOverallEff(Teff0_h_noGE21, pt+5)
+       heff2_noGE21, herr2_noGE21 = getOverallEff(Teff2_h_noGE21, pt+5)
+       heff0, herr0 = getOverallEff(Teff0_h, pt+5)
+       heff2, herr2 = getOverallEff(Teff2_h, pt+5)
+       print "pt ",pt," fraction ",fraction," etamin ",etamin, " etamax ",etamax," allnpar peff0 ",peff0, " heff0 ",heff0," heff0_noGE21 ",heff0_noGE21
+       print "Rate entreis p ",hrate0_p.GetEntries()," h_noGE21 ",hrate0_h_noGE21.GetEntries()," h ",hrate0_h.GetEntries()
+       print "allnpar eff, medium veto p ",peff2," heff2_noGE21 ",heff2_noGE21," heff2 ",heff2
+       print "Rate, medium veto,  entreis p ",hrate2_p.GetEntries()," h_noGE21 ",hrate2_h_noGE21.GetEntries()," h ",hrate2_h.GetEntries()
+       Teffeta0_p.SetName("positioneta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+       Teffeta0_h.SetName("hybrideta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+       Teffeta0_h_noGE21.SetName("hybrid_noGE21eta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+       Teffeta2_p.SetName("positionmediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+       Teffeta2_h.SetName("hybridmediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+       Teffeta2_h_noGE21.SetName("hybrid_noGE21mediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+       Teffeta0_p.Write(); Teffeta0_h.Write(); Teffeta0_h_noGE21.Write()
+       Teffeta2_p.Write(); Teffeta2_h.Write(); Teffeta2_h_noGE21.Write()
+
        Teff0_p.SetName("positioneta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
        Teff0_h.SetName("hybrideta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
        Teff0_h_noGE21.SetName("hybrid_noGE21eta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
@@ -1387,6 +1597,7 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
        Teff2_h_noGE21.SetName("hybrid_noGE21mediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
        Teff0_p.Write(); Teff0_h.Write(); Teff0_h_noGE21.Write()
        Teff2_p.Write(); Teff2_h.Write(); Teff2_h_noGE21.Write()
+
        hrate0_p.SetName("ratehist_position_eta%dto%d_npar%d_frac%d_pt%d"%(int(etamin*10),int(etamax*10), npar, fraction, pt))
        hrate2_p.SetName("ratehist_position_mediumveto_eta%dto%d_npar%d_frac%d_pt%d"%(int(etamin*10),int(etamax*10), npar, fraction, pt))
        hrate0_h_noGE21.SetName("ratehist_hybrid_noGE21_eta%dto%d_npar%d_frac%d_pt%d"%(int(etamin*10),int(etamax*10), npar, fraction, pt))
@@ -1398,37 +1609,50 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
        text_h = "#splitline{Hybrid algorithm w/ GE21}{%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV}"%(etamin,etamax, pt)
        text_p = "#splitline{Position-based algorithm}{%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV}"%(etamin,etamax, pt)
        text_h_noGE21 = "#splitline{Hybrid algorithm w/o GE21}{%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV}"%(etamin,etamax, pt)
-       legsveto = ["no tracker veto","medium tracker veto"]
+       legsveto = ["no track veto","medium track veto"]
        #makeplots([Teff0_p, Teff2_p], legsveto, text_p,SBPlots+"GEMCSC_dxy10_50_position_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
        #makeplots([Teff0_h, Teff2_h], legsveto, text_h,SBPlots+"GEMCSC_dxy10_50_hybrid_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
        #makeplots([Teff0_h_noGE21, Teff2_h_noGE21], legsveto, text_h_noGE21,SBPlots+"GEMCSC_dxy10_50_hybrid_noGE21_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
        #plotshistograms([hrate0_p, hrate2_p], legsveto, text_p, SBPlots+"TriggerRate_position_vetos_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
        #plotshistograms([hrate0_h, hrate2_h], legsveto, text_h, SBPlots+"TriggerRate_hybrid_vetos_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
        #plotshistograms([hrate0_h_noGE21, hrate2_h_noGE21], legsveto, text_h_noGE21, SBPlots+"TriggerRate_hybrid_noGE21_vetos_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
-       text_noveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, no tracker veto"%(etamin,etamax, pt)
-       text_mveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, medium tracker veto"%(etamin,etamax, pt)
+       text_noveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, no track veto"%(etamin,etamax, pt)
+       text_mveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, medium track veto"%(etamin,etamax, pt)
        #makeplots([Teff0_p, Teff0_h_noGE21, Teff0_h], legs3, text_noveto,SBPlots+"GEMCSC_dxy10_50_combined3_noveto_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
        #makeplots([Teff2_p, Teff2_h_noGE21, Teff2_h], legs3, text_mveto,SBPlots+"GEMCSC_dxy10_50_combined3_mediumveto_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
        #plotshistograms([hrate0_p, hrate0_h_noGE21, hrate0_h], legs3, text_noveto, SBPlots+"TriggerRate_combiend_noveto_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
        #plotshistograms([hrate2_p, hrate2_h_noGE21, hrate2_h], legs3, text_mveto, SBPlots+"TriggerRate_combiend_mediumveto_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
     etamin = netas[0]; etamax = netas[-1]
+    Teffalleta0_p = Teffalleta[0][0]; Teffalleta0_h = Teffalleta[0][2];Teffalleta0_h_noGE21 = Teffalleta[0][1]
+    Teffalleta2_p = Teffalleta2[0][0]; Teffalleta2_h = Teffalleta2[0][2];Teffalleta2_h_noGE21 = Teffalleta2[0][1]
     Teffall0_p = Teffall[0][0]; Teffall0_h = Teffall[0][2];Teffall0_h_noGE21 = Teffall[0][1]
     Teffall2_p = Teffall2[0][0]; Teffall2_h = Teffall2[0][2];Teffall2_h_noGE21 = Teffall2[0][1]
     hrateall0_p = hrateall[0][0]; hrateall0_h = hrateall[0][2]; hrateall0_h_noGE21 = hrateall[0][1]
     hrateall2_p = hrateall2[0][0]; hrateall2_h = hrateall2[0][2]; hrateall2_h_noGE21 = hrateall2[0][1]
+
     for xeta in range(len(Teffall)-1):
+
+	Teffalleta0_p.Add(Teffalleta[xeta+1][0])		   
+	Teffalleta0_h_noGE21.Add(Teffalleta[xeta+1][1])		   
+	Teffalleta0_h.Add(Teffalleta[xeta+1][2])		   
+	Teffalleta2_p.Add(Teffalleta2[xeta+1][0])		   
+	Teffalleta2_h_noGE21.Add(Teffalleta2[xeta+1][1])		   
+	Teffalleta2_h.Add(Teffalleta2[xeta+1][2])		   
+
 	Teffall0_p.Add(Teffall[xeta+1][0])		   
 	Teffall0_h_noGE21.Add(Teffall[xeta+1][1])		   
 	Teffall0_h.Add(Teffall[xeta+1][2])		   
 	Teffall2_p.Add(Teffall2[xeta+1][0])		   
 	Teffall2_h_noGE21.Add(Teffall2[xeta+1][1])		   
 	Teffall2_h.Add(Teffall2[xeta+1][2])		   
+
         hrateall0_p.Add(hrateall[xeta+1][0])
         hrateall0_h_noGE21.Add(hrateall[xeta+1][1])
         hrateall0_h.Add(hrateall[xeta+1][2])
         hrateall2_p.Add(hrateall2[xeta+1][0])
         hrateall2_h_noGE21.Add(hrateall2[xeta+1][1])
         hrateall2_h.Add(hrateall2[xeta+1][2])
+
     peff0, perr0 = getOverallEff(Teffall0_p, pt+5)
     peff2, perr2 = getOverallEff(Teffall2_p, pt+5)
     heff0_noGE21, herr0_noGE21 = getOverallEff(Teffall0_h_noGE21, pt+5)
@@ -1440,6 +1664,16 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
     print "Rate entreis p ",hrateall0_p.GetEntries()," h_noGE21 ",hrateall0_h_noGE21.GetEntries()," h ",hrateall0_h.GetEntries()
     print "all eff, medium veto p ",peff2," heff2_noGE21 ",heff2_noGE21," heff2 ",heff2
     print "Rate, medium veto,  entreis p ",hrateall2_p.GetEntries()," h_noGE21 ",hrateall2_h_noGE21.GetEntries()," h ",hrateall2_h.GetEntries()
+
+    Teffalleta0_p.SetName("positioneta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+    Teffalleta0_h.SetName("hybrideta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+    Teffalleta0_h_noGE21.SetName("hybrid_noGE21eta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+    Teffalleta2_p.SetName("positionmediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+    Teffalleta2_h.SetName("hybridmediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+    Teffalleta2_h_noGE21.SetName("hybrid_noGE21mediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%deta"%(pt))
+    Teffalleta0_p.Write(); Teffalleta0_h.Write(); Teffalleta0_h_noGE21.Write()
+    Teffalleta2_p.Write(); Teffalleta2_h.Write(); Teffalleta2_h_noGE21.Write()
+
     Teffall0_p.SetName("positioneta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
     Teffall0_h.SetName("hybrideta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
     Teffall0_h_noGE21.SetName("hybrid_noGE21eta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
@@ -1448,6 +1682,7 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
     Teffall2_h_noGE21.SetName("hybrid_noGE21mediumvetoeta%dto%d"%(int(etamin*10),int(etamax*10))+"displacedmuonpt%d"%(pt))
     Teffall0_p.Write(); Teffall0_h.Write(); Teffall0_h_noGE21.Write()
     Teffall2_p.Write(); Teffall2_h.Write(); Teffall2_h_noGE21.Write()
+
     hrateall0_p.SetName("ratehist_position_eta%dto%d_npar%d_frac%d_pt%d"%(int(etamin*10),int(etamax*10), npar, fraction, pt))
     hrateall2_p.SetName("ratehist_position_mediumveto_eta%dto%d_npar%d_frac%d_pt%d"%(int(etamin*10),int(etamax*10), npar, fraction, pt))
     hrateall0_h_noGE21.SetName("ratehist_hybrid_noGE21_eta%dto%d_npar%d_frac%d_pt%d"%(int(etamin*10),int(etamax*10), npar, fraction, pt))
@@ -1456,22 +1691,28 @@ def plotalleta(pt, netas, fraction, outputrootfile, ratesample, signalsample, al
     hrateall2_h.SetName("ratehist_hybrid_mediumveto_eta%dto%d_npar%d_frac%d_pt%d"%(int(etamin*10),int(etamax*10), npar, fraction, pt))
     hrateall0_p.Write(); hrateall0_h_noGE21.Write(); hrateall0_h.Write()
     hrateall2_p.Write(); hrateall2_h_noGE21.Write(); hrateall2_h.Write()
+
     text_h = "#splitline{Hybrid algorithm w/ GE21}{%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV}"%(etamin,etamax, pt)
     text_p = "#splitline{Position-based algorithm}{%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV}"%(etamin,etamax, pt)
     text_h_noGE21 = "#splitline{Hybrid algorithm w/o GE21}{%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV}"%(etamin,etamax, pt)
-    legsveto = ["no tracker veto","medium tracker veto"]
-    makeplots([Teffall0_p, Teffall2_p], legsveto, text_p,SBPlots+"GEMCSC_dxy10_50_position_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
-    makeplots([Teffall0_h, Teffall2_h], legsveto, text_h,SBPlots+"GEMCSC_dxy10_50_hybrid_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
-    makeplots([Teffall0_h_noGE21, Teffall2_h_noGE21], legsveto, text_h_noGE21,SBPlots+"GEMCSC_dxy10_50_hybrid_noGE21_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
+    legsveto = ["no track veto","medium track veto"]
+    legheader = "L1Mu with Q>=4"
+    makeplots([Teffall0_p, Teffall2_p], legsveto, legheader, text_p,SBPlots+"GEMCSC_dxy10_50_position_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
+    makeplots([Teffall0_h, Teffall2_h], legsveto, legheader,text_h,SBPlots+"GEMCSC_dxy10_50_hybrid_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
+    makeplots([Teffall0_h_noGE21, Teffall2_h_noGE21], legsveto, legheader,text_h_noGE21,SBPlots+"GEMCSC_dxy10_50_hybrid_noGE21_vetos_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
     plotshistograms([hrateall0_p, hrateall2_p], legsveto,"L1Mu with Q>=4", text_p, SBPlots+"TriggerRate_position_vetos_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
     plotshistograms([hrateall0_h, hrateall2_h], legsveto, "L1Mu with Q>=4", text_h, SBPlots+"TriggerRate_hybrid_vetos_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
     plotshistograms([hrateall0_h_noGE21, hrateall2_h_noGE21], legsveto, "L1Mu with Q>=4", text_h_noGE21, SBPlots+"TriggerRate_hybrid_noGE21_vetos_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
-    text_noveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, no tracker veto"%(etamin,etamax, pt)
-    text_mveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, medium tracker veto"%(etamin,etamax, pt)
-    legheader = "L1Mu with no tracker veto, Q>=4"
-    legheaderm = "L1Mu with medium tracker veto, Q>=4"
-    makeplots([Teffall0_p, Teffall0_h_noGE21, Teffall0_h], legs3, text_noveto,SBPlots+"GEMCSC_dxy10_50_combined3_noveto_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
-    makeplots([Teffall2_p, Teffall2_h_noGE21, Teffall2_h], legs3, text_mveto,SBPlots+"GEMCSC_dxy10_50_combined3_mediumveto_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
+    text_noveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, no track veto"%(etamin,etamax, pt)
+    text_mveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV, medium track veto"%(etamin,etamax, pt)
+    texteta_noveto =  "#splitline{%.2f<|#eta|<%.2f,p_{T}^{sim}>%d GeV, p_{T}^{L1}>%d GeV}{ no track veto}"%(etamin,etamax, pt+5, pt)
+    texteta_mveto =  "#splitline{%.2f<|#eta|<%.2f,p_{T}^{sim}>%d GeV, p_{T}^{L1}>%d GeV}{ medium track veto}"%(etamin,etamax, pt+5, pt)
+    legheader = "L1Mu with no track veto, Q>=4"
+    legheaderm = "L1Mu with medium track veto, Q>=4"
+    makeplotsEta([Teffalleta0_p, Teffalleta0_h_noGE21, Teffalleta0_h], legs3, legheader,texteta_noveto,SBPlots+"GEMCSC_dxy10_50_combined3_noveto_effvseta_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
+    makeplotsEta([Teffalleta2_p, Teffalleta2_h_noGE21, Teffalleta2_h], legs3, legheader,texteta_mveto,SBPlots+"GEMCSC_dxy10_50_combined3_mediumveto_effvsetaf_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
+    makeplots([Teffall0_p, Teffall0_h_noGE21, Teffall0_h], legs3, legheader,text_noveto,SBPlots+"GEMCSC_dxy10_50_combined3_noveto_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
+    makeplots([Teffall2_p, Teffall2_h_noGE21, Teffall2_h], legs3, legheader,text_mveto,SBPlots+"GEMCSC_dxy10_50_combined3_mediumveto_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
     plotshistograms([hrateall0_p, hrateall0_h_noGE21, hrateall0_h], legs3, legheader, text_noveto, SBPlots+"TriggerRate_combiend_noveto_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
     plotshistograms([hrateall2_p, hrateall2_h_noGE21, hrateall2_h], legs3, legheaderm, text_mveto, SBPlots+"TriggerRate_combiend_mediumveto_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10)))
     return peff0, perr0, heff0_noGE21, herr0_noGE21, heff0, herr0, peff2, perr2, heff2_noGE21, herr2_noGE21,heff2,herr2, hrateall0_p.Integral(),hrateall0_h_noGE21.Integral(), hrateall0_h.Integral(), hrateall2_p.Integral(), hrateall2_h_noGE21.Integral(),hrateall2_h.Integral()
@@ -1540,8 +1781,8 @@ def plotalletaallptallfractions(pts, netas, fractions, fraction_rate, outputroot
 	graph2_p.Write();graph2_h_noGE21.Write();graph2_h.Write()
 	text_noveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV"%(etamin,etamax,pt)
 	text_mveto =  "%.2f<|#eta|<%.2f, p_{T}^{L1}>%d GeV"%(etamin,etamax,pt)
-	legheader = "L1Mu with no tracker veto, Q>=4"
-	legheaderm = "L1Mu with medium tracker veto, Q>=4"
+	legheader = "L1Mu with no track veto, Q>=4"
+	legheaderm = "L1Mu with medium track veto, Q>=4"
 	mgerr = plotsgraphs([graph_p, graph_h_noGE21, graph_h], legs3, legheader, text_noveto, SBPlots+"TriggerRateVsEff_combiend_noveto_20170131_pt%d_St2eta%dto%d_allnpar"%(pt, int(etamin*10),int(etamax*10)))
 	mgerr2 = plotsgraphs([graph2_p, graph2_h_noGE21, graph2_h], legs3, legheaderm, text_mveto, SBPlots+"TriggerRateVsEff_combiend_mediumveto_20170131_pt%d_St2eta%dto%d_allnpar"%(pt, int(etamin*10),int(etamax*10)))
         mgerr.SetName("TriggerEffVsRate_combined_noveto_pt%d_eta%dto%d"%(pt,int(etamin*10), int(etamax*10)))
@@ -1574,15 +1815,41 @@ def plotalletaallptallfractions(pts, netas, fractions, fraction_rate, outputroot
     hrate2_p.Write();hrate2_h.Write();hrate2_h_noGE21.Write()
     text_noveto =  "%.2f<|#eta|<%.2f"%(etamin,etamax)
     text_mveto =  "%.2f<|#eta|<%.2f"%(etamin,etamax)
-    legheader = "L1Mu with no tracker veto, Q>=4"
-    legheaderm = "L1Mu with medium tracker veto, Q>=4"
+    legheader = "L1Mu with no track veto, Q>=4"
+    legheaderm = "L1Mu with medium track veto, Q>=4"
     plotshistograms([hrate_p, hrate_h_noGE21, hrate_h], legs3,legheader, text_noveto, SBPlots+"TriggerRate_pt_combined_noveto_20170131_ratefraction%d_St2eta%dto%d_allnpar"%(fraction_rate, int(etamin*10),int(etamax*10)), True)
     plotshistograms([hrate2_p, hrate2_h_noGE21, hrate2_h], legs3,legheaderm, text_mveto, SBPlots+"TriggerRate_pt_combined_mediumveto_20170131_ratefraction%d_St2eta%dto%d_allnpar"%(fraction_rate, int(etamin*10),int(etamax*10)), True)
 
+def CompareEffPromptAndDisplaced(pts, netas, fraction, outputrootfile, signalsample, SBPlots):
+    etamin = netas[0]; etamax = netas[-1]
+    GEMCSCTrackCh0 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ALL")
+    #GEMCSCTrackCh1 = TChain("GEMCSCAnalyzer/trk_eff_CSC_ALL")
+    #addFilesToChain(GEMCSCTrackCh1, signalsample) 
+    addFilesToChain(GEMCSCTrackCh0, signalsample) 
+    xtitle = "True muon p_{T} [GeV]"
+    ytitle = "Trigger Efficiency"
+    leg = ["Current L1"]
+    legheader = "medium track veto" 
+    for pt in pts:
+	text = "%.2f<|#eta|<%.2f, p_{T}^{L1}>=%d GeV"%(etamin,etamax,pt)
+	print "text ",text
+	tfile = TFile(outputrootfile,"UPDATE")
+	den1 = "L1Mu_quality>=4 && hasSt1St2St3 && fabs(eta_st2_L1)>%f && fabs(eta_st2_L1)<%f && fabs(genGdMu_dxy)>10 && fabs(genGdMu_dxy)<20 && fabs(genGdMu_dR)<0.1"%(etamin,etamax)
+	den2 = "L1Mu_quality>=4 && hasSt1St2St3 && fabs(eta_st2_L1)>%f && fabs(eta_st2_L1)<%f && fabs(genGdMu_dxy)>30 && fabs(genGdMu_dxy)<50 && fabs(genGdMu_dR)<0.1"%(etamin,etamax)
+	num = "L1Mu_pt>=%d && !isL1MediumVeto"%pt
+	Teff_prompt1 = makeEffplot_v2([GEMCSCTrackCh0], "pt", [den1], [num], etamin, etamax, xtitle,ytitle,leg, legheader, text,SBPlots+"GEMCSC_dxy10_20_CurrentL1Only_eff_20170131_pt%d_St2eta%dto%d_allnpar"%(pt, int(etamin*10),int(etamax*10)))
+	Teff_prompt2 = makeEffplot_v2([GEMCSCTrackCh0], "pt", [den2], [num], etamin, etamax, xtitle,ytitle,leg, legheader, text,SBPlots+"GEMCSC_dxy30_50_CurrentL1Only_eff_20170131_pt%d_St2eta%dto%d_allnpar"%(pt, int(etamin*10),int(etamax*10)))
+	Teff_displaced = tfile.Get("hybridmediumvetoeta%dto%ddisplacedmuonpt%d"%(int(etamin*10), int(etamax*10),pt))
+	#legs = ["Current L1 algorithm","Hybrid algorithm with GE2/1"]
+	legs = ["Current L1 algorithm, with 10<|d_{xy}|<20cm", "Current L1 algorithm, with 30<|d_{xy}|<50cm","Hybrid algorithm with GE2/1, with 10<|d_{xy}|<50cm"]
+	legheader = "L1Mu with Q>=4 + medium track veto"
+	makeplots([Teff_prompt1[0], Teff_prompt2[0], Teff_displaced], legs, legheader, text,SBPlots+"GEMCSC_dxy10to20_30to50_CurrentL1andDisplaced_eff_20170131_pt%d_fraction%d_St2eta%dto%d_allnpar"%(pt, fraction, int(etamin*10),int(etamax*10))) 
 
 #DecompresZipFiles("./")
 #SBPlots = "eta12to215SBPlots_20170306_combined_PU140_test_v1/"
-SBPlots = "eta12to215SBPlots_20170316_combined_PU140_newRatesample_TriggerRateVsPlateauEff_v2/"
+#SBPlots = "eta12to215SBPlots_20170316_combined_PU140_newRatesample_TriggerRateVsPlateauEff_v2/"
+#SBPlots = "eta12to215SBPlots_20170316_combined_PU140_newRatesample_TriggerRateVsPT_dxy10to20/"
+SBPlots = "eta215to24SBPlots_20170712_PU140_PromptMu_OnlyTriggerRate/"
 if len(sys.argv)>=2:
         SBPlots = sys.argv[1]
 	if SBPlots[-1] != "/":
@@ -1597,6 +1864,8 @@ pts = [5, 7, 10,12, 15, 20]
 netas = [1.6,1.8,2.0,2.15]
 #netas = [1.2,1.4,1.6]
 netas = [1.2,1.4,1.6,1.8,2.0,2.15]
+#netas = [1.6,1.8,2.0,2.15]
+netas = [2.15, 2.2, 2.4]
 useGE21 = False
 condoroutroot = "Teffout_eta16to215_noGE21.root"
 outputroot = "SB_eta16to215_test.root"
@@ -1605,14 +1874,18 @@ filename = "SB_eta12to215_20170306.root"
 #CombinedGE21_SB(filename, pts, netas, SBPlots)
 #netas = [1.2,1.4,1.6,1.8,2.0,2.15]
 #CombinedGE21_effAndrate(filename, pts, netas, SBPlots)
-allLUTfile = "finalLUT_20170312_all.log"
+#allLUTfile = "finalLUT_20170312_all.log"
+allLUTfile = "finalLUT_20170619_ME0.log"#with position based cut for eta2.2-2.4
 outputrootfile = "SB_eta12to215_20170315_test.root"
 outputrootfile = SBPlots+outputrootfile
 ratesample = "RateTree_veto2.root"
-signalsample = "out_ana_displaced.root"
-#plotalleta(10, netas, fraction, outputrootfile, ratesample, signalsample, allLUTfile, SBPlots)
+signalsample = "GEMCSC_Ana_ctau0_Pt2_50_PU140_20170712_GE11only/out_ana_1.root"
+#plotalleta(10, netas, 95, outputrootfile, ratesample, signalsample, allLUTfile, SBPlots)
 #for frac in fractions:
 #    plotalletaallptallfractions(pts, netas, fractions, frac, outputrootfile, ratesample, signalsample, allLUTfile, SBPlots)
 frac = 96
+plotalletaallptallfractions([10], netas, [96], frac, outputrootfile, ratesample, signalsample, allLUTfile, SBPlots)
 #plotalletaallptallfractions(pts, netas, [frac], frac, outputrootfile, ratesample, signalsample, allLUTfile, SBPlots)
-plotalletaallptallfractions([10], netas, fractions, frac, outputrootfile, ratesample, signalsample, allLUTfile, SBPlots)
+#plotalletaallptallfractions([10], netas, fractions, frac, outputrootfile, ratesample, signalsample, allLUTfile, SBPlots)
+#CompareEffPromptAndDisplaced([10, 20], netas, frac, outputrootfile, signalsample, SBPlots)
+
